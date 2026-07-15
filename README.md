@@ -29,3 +29,7 @@ Versión ejecutiva tipo Power BI para conciliar archivos JDE contra Saldos por C
 - `app.js`: conciliación, dashboard, copiloto y exportaciones.
 - `config.js`: URL de Apps Script.
 - `Code.gs`: backend de autenticación de referencia.
+
+
+## Edición Obsidian Orange
+Identidad visual ejecutiva con fondo grafito, glassmorphism y acentos tornasol naranja, ámbar, dorado y cobre. Mantiene la lógica de conciliación, login por Google Sheets y Copiloto flotante.
