@@ -19,3 +19,7 @@ Portal estático listo para GitHub Pages.
 El frontend intenta validar con:
 `?accion=login&usuario=...&password=...`
 Si tu Apps Script usa nombres de parámetros distintos, modifica únicamente la función `login()` en `app.js`.
+
+
+## Login desde Google Sheets
+Se incluye `Code.gs` para Apps Script. La web llama `?accion=usuarios` para llenar el selectbox y `?accion=login&usuario=...&password=...` para validar. El endpoint de usuarios nunca devuelve contraseñas.
