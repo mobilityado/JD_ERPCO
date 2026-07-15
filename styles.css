@@ -186,3 +186,14 @@ header button:hover,.secondary:hover{border-color:rgba(255,153,51,.45);color:#ff
   .app>aside{background:rgba(8,10,13,.93);border-right:0;border-bottom:1px solid rgba(255,255,255,.08)}
   nav button.active{box-shadow:inset 0 -3px 0 #ff8b26;background:linear-gradient(180deg,rgba(255,122,24,.08),rgba(255,122,24,.16))}
 }
+
+
+/* V2 - Selector de marca y detalle de conceptos */
+.brand-mode-wrap{margin-bottom:16px;padding:20px 22px}
+.brand-mode-wrap h3{margin:5px 0 12px}
+.brand-mode{display:flex;gap:10px;flex-wrap:wrap}
+.brand-mode button{border:1px solid rgba(255,153,51,.24);background:rgba(20,22,26,.68);color:#d9dce2;padding:11px 18px;border-radius:12px;font-weight:700;cursor:pointer;transition:.2s ease}
+.brand-mode button:hover{transform:translateY(-1px);border-color:rgba(255,170,64,.48)}
+.brand-mode button.active{color:#fff;border-color:rgba(255,171,64,.7);background:linear-gradient(110deg,rgba(255,122,0,.82),rgba(255,176,48,.62),rgba(198,92,24,.76));box-shadow:0 8px 28px rgba(255,120,0,.2)}
+.concept-detail{margin-top:18px}.concept-detail h3{margin:0 0 10px}.concept-detail .tablewrap{max-height:300px;overflow:auto}
+@media(max-width:700px){.brand-mode button{flex:1 1 42%}}

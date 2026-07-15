@@ -12,7 +12,7 @@
     <div class="login-shell">
       <section class="login-brand">
         <div class="brand-mark">C</div>
-        <div><span class="eyebrow light">CENTRO DE INTELIGENCIA OPERATIVA</span><h1>CONCIL.IA</h1><p>JDE vs Saldos por Conductor</p></div>
+        <div><span class="eyebrow light">CENTRO DE INTELIGENCIA OPERATIVA</span><h1>CONCIL.IA</h1><p>JDE vs Saldos por Conductor · ADO · AAO · TRT</p></div>
         <div class="login-insight"><span>Conciliación ejecutiva</span><strong>Control · Análisis · Decisión</strong></div>
       </section>
       <section class="login-card">
@@ -39,14 +39,15 @@
 
     <main>
       <header>
-        <div><span class="eyebrow">TABLERO EJECUTIVO DE CONCILIACIÓN</span><h1 id="hello">👋 Hola.</h1><p>Vista consolidada de JDE vs Saldos por Conductor</p></div>
+        <div><span class="eyebrow">TABLERO EJECUTIVO DE CONCILIACIÓN</span><h1 id="hello">👋 Hola.</h1><p>Conciliación ejecutiva por marca: ADO · AAO · TRT · ADO · AAO · TRT</p></div>
         <div class="header-actions"><div class="live-pill"><i></i> En línea</div><button id="logout">Cerrar sesión</button></div>
       </header>
 
       <section id="carga" class="view active">
-        <div class="page-head"><div><span class="eyebrow">PROCESO DE CONCILIACIÓN</span><h2>Carga de información</h2><p>Integra los reportes de ADO, SUR y TRT para generar el análisis consolidado.</p></div><div class="step-badge">6 archivos requeridos</div></div>
+        <div class="page-head"><div><span class="eyebrow">PROCESO DE CONCILIACIÓN</span><h2>Carga de información</h2><p>Selecciona una marca o concilia todas al mismo tiempo. Solo se exigirán los archivos correspondientes a la modalidad elegida.</p></div><div class="step-badge" id="requiredBadge">2 archivos requeridos</div></div>
+        <div class="brand-mode-wrap executive-card"><span class="eyebrow">MODALIDAD DE CONCILIACIÓN</span><h3>¿Qué marca deseas conciliar?</h3><div class="brand-mode" id="brandMode"><button class="active" data-mode="ADO">ADO</button><button data-mode="AAO">AAO</button><button data-mode="TRT">TRT</button><button data-mode="ALL">Todas las marcas</button></div><p class="drop-help">Puedes trabajar una sola marca sin cargar las demás, o procesar ADO, AAO y TRT en una misma sesión.</p></div>
         <div class="upload-grid">
-          <div class="hero executive-card"><div class="card-icon">↥</div><div><h3>Reportes requeridos</h3><p>Selecciona los 3 archivos JDE y los 3 reportes de Saldos por Conductor. El sistema identifica cada marca automáticamente.</p><div class="file-checks" id="fileChecks"></div></div></div>
+          <div class="hero executive-card"><div class="card-icon">↥</div><div><h3>Reportes requeridos</h3><p id="requiredHelp">Carga JDE ADO y Saldos por Conductor ADO. El sistema identifica los archivos automáticamente.</p><div class="file-checks" id="fileChecks"></div></div></div>
           <div class="drop executive-card"><input id="files" type="file" multiple accept=".csv"><label for="files"><span>＋</span> Seleccionar archivos CSV</label><p class="drop-help">Puedes seleccionar varios archivos al mismo tiempo</p><div id="fileList"></div></div>
         </div>
         <button class="primary" id="run"><span>✦</span> Ejecutar conciliación</button><div id="status" class="status"></div>
@@ -65,14 +66,14 @@
           <div class="panel executive-summary"><div class="panel-head"><div><span class="eyebrow">LECTURA AUTOMÁTICA</span><h3>Resumen Ejecutivo Inteligente</h3></div><span class="ai-chip">✦ IA operativa</span></div><div id="executiveNarrative" class="narrative">Carga los archivos para generar el diagnóstico ejecutivo.</div><div id="insightChips" class="insight-chips"></div></div>
           <div class="panel"><div class="panel-head"><div><span class="eyebrow">SEMÁFORO</span><h3>Calidad de conciliación</h3></div><span class="panel-note">Porcentaje cuadrado</span></div><div class="gauge-wrap"><div class="gauge"><div id="gaugeFill" class="gauge-fill"></div><div class="gauge-center"><strong id="gaugeValue">0%</strong><small>conciliado</small></div></div><div class="legend"><span><i class="lg green"></i> ≥ 98%</span><span><i class="lg amber"></i> 90–97.99%</span><span><i class="lg red"></i> &lt; 90%</span></div></div></div>
         </div>
-        <div class="panel"><div class="panel-head"><div><span class="eyebrow">COMPARATIVO OPERATIVO</span><h3>ADO · SUR · TRT</h3></div><span class="panel-note">Impacto por marca</span></div><div id="brandCards" class="brands"></div></div>
+        <div class="panel"><div class="panel-head"><div><span class="eyebrow">COMPARATIVO OPERATIVO</span><h3>ADO · AAO · TRT</h3></div><span class="panel-note">Impacto por marca</span></div><div id="brandCards" class="brands"></div></div>
       </section>
 
       <section id="diferencias" class="view">
         <div class="page-head"><div><span class="eyebrow">ANÁLISIS DE EXCEPCIONES</span><h2>Diferencias por conductor</h2><p>Consulta, filtra y abre la Vista 360° de cada conductor.</p></div></div>
         <div class="quick-filters"><button data-quick="all" class="active">Todos</button><button data-quick="critical">Diferencia alta</button><button data-quick="jde">Solo JDE</button><button data-quick="saldos">Solo Saldos</button><button data-quick="balanced">Cuadrados</button></div>
-        <div class="toolbar"><div class="search-wrap">⌕ <input id="search" placeholder="Buscar conductor, nombre o marca"></div><select id="brand"><option value="">Todas las marcas</option><option>ADO</option><option>SUR</option><option>TRT</option></select><select id="type"><option value="">Todos los tipos</option><option>Diferencia de saldo</option><option>Solo en JDE</option><option>Solo en Saldos</option><option>Cuadrado</option></select><button id="export">↓ Exportar CSV</button></div>
-        <div class="tablewrap"><table><thead><tr><th>Marca</th><th>Conductor</th><th>Nombre</th><th>JDE</th><th>Saldos</th><th>Diferencia</th><th>Estado</th><th></th></tr></thead><tbody id="diffBody"></tbody></table></div>
+        <div class="toolbar"><div class="search-wrap">⌕ <input id="search" placeholder="Buscar conductor, nombre o marca"></div><select id="brand"><option value="">Todas las marcas</option><option>ADO</option><option>AAO</option><option>TRT</option></select><select id="type"><option value="">Todos los tipos</option><option>Diferencia de saldo</option><option>Solo en JDE</option><option>Solo en Saldos</option><option>Cuadrado</option></select><button id="export">↓ Exportar CSV</button></div>
+        <div class="tablewrap"><table><thead><tr><th>Marca</th><th>Conductor</th><th>Nombre</th><th>JDE</th><th>ERPCO / Saldos</th><th>Diferencia</th><th>Estado</th><th></th></tr></thead><tbody id="diffBody"></tbody></table></div>
       </section>
 
       <section id="adeudos" class="view">

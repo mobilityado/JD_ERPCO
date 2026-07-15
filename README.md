@@ -1,35 +1,20 @@
-# CONCIL.IA · JDE vs Saldos por Conductor — Executive Intelligence
+# CONCIL.IA Executive Intelligence · Obsidian Orange V2
 
-Versión ejecutiva tipo Power BI para conciliar archivos JDE contra Saldos por Conductor de ADO, SUR y TRT.
+Conciliación JDE vs Saldos por Conductor por marca.
 
-## Funciones principales
-- Login con usuarios activos cargados desde Google Sheets mediante Apps Script.
-- Carga y detección automática de los seis CSV requeridos.
-- Conciliación por número de conductor.
-- Resumen Ejecutivo Inteligente.
-- Semáforo de calidad de conciliación y porcentaje cuadrado.
-- Comparativo ADO / SUR / TRT.
-- Diferencias: saldo distinto, solo JDE, solo Saldos y cuadrados.
-- Filtros rápidos y búsqueda.
-- Vista 360° del conductor con diagnóstico automático.
-- Ranking de mayores adeudos y concentración por marca.
-- Copiloto con preguntas sobre los datos cargados.
-- Exportación CSV.
-- Reporte Ejecutivo Excel con hojas: Resumen Ejecutivo, Conciliación, Diferencias, Adeudos, Solo JDE y Solo Saldos.
+## Modalidades
+- ADO: carga únicamente JDE ADO + Saldos ADO.
+- AAO: carga únicamente JDE AAO/SUR + Saldos AAO.
+- TRT: carga únicamente JDE TRT + Saldos TRT.
+- Todas las marcas: carga los seis archivos y procesa ADO, AAO y TRT en una sesión.
 
-## Implementación
-1. Descomprime el proyecto y sube los archivos de la carpeta a tu repositorio GitHub Pages.
-2. `config.js` ya contiene la URL del Apps Script configurada anteriormente.
-3. Conserva tu `Code.gs` desplegado como aplicación web con acceso adecuado.
-4. Para generar archivos XLSX, la página carga SheetJS desde CDN. Si la red bloquea esa librería, la aplicación exportará CSV como respaldo.
+## Lógica
+- JDE: usa `LM aux` como clave e `Importe real acumulado` como saldo.
+- ERPCO / Saldos por Conductor: suma `SdoActual` por clave de conductor.
+- Diferencia: `ERPCO / Saldos - JDE`, como en el ejemplo de cuadre recibido.
+- SUR se normaliza visualmente como AAO.
 
-## Archivos
-- `index.html`: interfaz.
-- `styles.css`: diseño ejecutivo.
-- `app.js`: conciliación, dashboard, copiloto y exportaciones.
-- `config.js`: URL de Apps Script.
-- `Code.gs`: backend de autenticación de referencia.
+## Exportación
+Genera un Excel con Resumen Ejecutivo, una hoja `CONCILIACION` por marca cargada, Diferencias y Detalle de Conceptos.
 
-
-## Edición Obsidian Orange
-Identidad visual ejecutiva con fondo grafito, glassmorphism y acentos tornasol naranja, ámbar, dorado y cobre. Mantiene la lógica de conciliación, login por Google Sheets y Copiloto flotante.
+El login y Code.gs se conservan sin cambios.
