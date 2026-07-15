@@ -26,7 +26,7 @@ async function login(){
   $('#loginMsg').textContent='Validando...';
   try{const r=await fetch(`${cfg.AUTH_URL}?accion=login&usuario=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`),d=await r.json();const ok=d.ok===true||d.success===true||d.error===false||d.acceso===true;if(!ok)throw Error(d.mensaje||'Credenciales incorrectas');currentUser={usuario:u,nombre:d.nombre||d.name||u,rango:d.rango||d.rol||''};openApp()}catch(e){$('#loginMsg').textContent='No pude validar el acceso: '+e.message}
 }
-function openApp(){localStorage.setItem('conciliiaUser',JSON.stringify(currentUser));$('#login').classList.add('hidden');$('#app').classList.remove('hidden');$('#hello').textContent=`👋 Hola ${currentUser.nombre}.`;$('#who').textContent=currentUser.rango?`${currentUser.nombre} · ${currentUser.rango}`:currentUser.nombre}
+function openApp(){localStorage.setItem('conciliiaUser',JSON.stringify(currentUser));$('#login').classList.add('hidden');$('#app').classList.remove('hidden');$('#hello').textContent=`👋 Hola ${currentUser.nombre}.`;$('#who').textContent=currentUser.rango?`${currentUser.nombre} · ${currentUser.rango}`:currentUser.nombre;const first=String(currentUser.nombre||currentUser.usuario||'').trim().split(/\s+/)[0];const bot=$('#chatLog .bot');if(bot)bot.textContent=`👋 Hola ${first}. Soy tu Copiloto CONCIL.IA. Ya estoy listo para ayudarte con la conciliación.`}
 $('#loginBtn').onclick=login; loadUsers(); $('#pass').addEventListener('keydown',e=>e.key==='Enter'&&login()); $('#logout').onclick=()=>{localStorage.removeItem('conciliiaUser');location.reload()};
 $$('nav button').forEach(b=>b.onclick=()=>{$$('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');$$('.view').forEach(v=>v.classList.remove('active'));$('#'+b.dataset.view).classList.add('active')});
 
@@ -126,6 +126,18 @@ function answer(q){
 }
 function ask(q){if(!q)return;$('#chatLog').insertAdjacentHTML('beforeend',`<div class="me">${esc(q)}</div><div class="bot">🤖 ${esc(answer(q))}</div>`);$('#question').value='';$('#chatLog').scrollTop=$('#chatLog').scrollHeight}
 $('#ask').onclick=()=>ask($('#question').value);$('#question').addEventListener('keydown',e=>e.key==='Enter'&&ask(e.target.value));$$('.suggestions button').forEach(b=>b.onclick=()=>ask(b.textContent));
+
+
+function toggleCopilot(open){
+  const panel=$('#copilotPanel'), overlay=$('#copilotOverlay');
+  panel.classList.toggle('hidden',!open); overlay.classList.toggle('hidden',!open);
+  panel.setAttribute('aria-hidden',String(!open)); overlay.setAttribute('aria-hidden',String(!open));
+  if(open)setTimeout(()=>$('#question')?.focus(),80);
+}
+$('#copilotFab').onclick=()=>toggleCopilot(true);
+$('#closeCopilot').onclick=()=>toggleCopilot(false);
+$('#copilotOverlay').onclick=()=>toggleCopilot(false);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#copilotPanel').classList.contains('hidden'))toggleCopilot(false)});
 
 inspectFiles();
 let saved=localStorage.getItem('conciliiaUser');if(saved){try{currentUser=JSON.parse(saved);openApp()}catch{}}

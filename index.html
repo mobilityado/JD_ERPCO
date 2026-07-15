@@ -33,7 +33,6 @@
         <button data-view="resumen"><span>▥</span> Resumen ejecutivo</button>
         <button data-view="diferencias"><span>≠</span> Diferencias</button>
         <button data-view="adeudos"><span>$</span> Adeudos</button>
-        <button data-view="copiloto"><span>✦</span> Copiloto</button>
       </nav>
       <div class="side-status"><i></i><div><strong>Sistema operativo</strong><small id="sideState">Listo para conciliar</small></div></div><div class="who" id="who"></div>
     </aside>
@@ -81,11 +80,24 @@
         <div class="dashboard-grid"><div class="panel"><div class="panel-head"><div><span class="eyebrow">TOP DE EXPOSICIÓN</span><h3>Mayores adeudos</h3></div><span class="panel-note">Top 20</span></div><div id="debtList"></div></div><div class="panel"><div class="panel-head"><div><span class="eyebrow">CONCENTRACIÓN</span><h3>Distribución del adeudo</h3></div></div><div id="debtByBrand" class="bar-list"></div></div></div>
       </section>
 
-      <section id="copiloto" class="view">
-        <div class="page-head"><div><span class="eyebrow">ASISTENTE DE CONCILIACIÓN</span><h2>Copiloto</h2><p>Pregunta por hallazgos, marcas, diferencias y conductores críticos.</p></div></div>
-        <div class="chat"><div class="copilot-head"><div class="copilot-avatar">✦</div><div><strong>Copiloto CONCIL.IA</strong><small>Asistente operativo</small></div><span class="live-pill"><i></i> Disponible</span></div><div id="chatLog"><div class="bot">Hola. Puedo explicarte por qué no cuadra la conciliación, cuál marca concentra más diferencias o quién tiene el mayor adeudo.</div></div><div class="suggestions"><button>¿Por qué no cuadra?</button><button>¿Qué marca tiene más diferencias?</button><button>¿Cuál es el mayor adeudo?</button><button>¿Quién solo aparece en JDE?</button></div><div class="chatbox"><input id="question" placeholder="Escribe tu duda sobre la conciliación..."><button id="ask">Enviar</button></div></div>
-      </section>
+
     </main>
+
+    <button id="copilotFab" class="copilot-fab" aria-label="Abrir Copiloto CONCIL.IA" title="Abrir Copiloto">
+      <span class="copilot-fab-icon">✦</span><span class="copilot-fab-pulse"></span>
+    </button>
+    <div id="copilotOverlay" class="copilot-overlay hidden" aria-hidden="true"></div>
+    <aside id="copilotPanel" class="copilot-panel hidden" aria-hidden="true">
+      <div class="floating-copilot-head">
+        <div class="copilot-avatar">✦</div>
+        <div><strong>Copiloto CONCIL.IA</strong><small id="copilotSubtitle">Asistente ejecutivo de conciliación</small></div>
+        <span class="floating-live"><i></i> Disponible</span>
+        <button id="closeCopilot" class="copilot-close" aria-label="Cerrar Copiloto">×</button>
+      </div>
+      <div id="chatLog" class="floating-chat-log"><div class="bot">👋 Hola. Soy tu Copiloto CONCIL.IA. Puedo explicarte diferencias, adeudos y hallazgos de la conciliación.</div></div>
+      <div class="suggestions floating-suggestions"><button>¿Por qué no cuadra?</button><button>¿Qué marca tiene más diferencias?</button><button>¿Cuál es el mayor adeudo?</button><button>¿Quién solo aparece en JDE?</button></div>
+      <div class="chatbox floating-chatbox"><input id="question" placeholder="Pregunta sobre la conciliación..." autocomplete="off"><button id="ask">Enviar</button></div>
+    </aside>
   </div>
 
   <div id="driverModal" class="modal hidden"><div class="modal-backdrop" data-close-modal></div><div class="modal-card"><button class="modal-close" data-close-modal>×</button><div id="driverDetail"></div></div></div>
