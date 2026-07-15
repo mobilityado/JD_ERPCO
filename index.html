@@ -12,37 +12,21 @@
     <div class="login-shell">
       <section class="login-brand">
         <div class="brand-mark">C</div>
-        <div>
-          <span class="eyebrow light">CENTRO DE INTELIGENCIA OPERATIVA</span>
-          <h1>CONCIL.IA</h1>
-          <p>JDE vs Saldos por Conductor</p>
-        </div>
-        <div class="login-insight">
-          <span>Conciliación ejecutiva</span>
-          <strong>Control · Análisis · Decisión</strong>
-        </div>
+        <div><span class="eyebrow light">CENTRO DE INTELIGENCIA OPERATIVA</span><h1>CONCIL.IA</h1><p>JDE vs Saldos por Conductor</p></div>
+        <div class="login-insight"><span>Conciliación ejecutiva</span><strong>Control · Análisis · Decisión</strong></div>
       </section>
       <section class="login-card">
-        <span class="eyebrow">ACCESO SEGURO</span>
-        <h2>Bienvenido</h2>
-        <p>Selecciona tu usuario para ingresar al tablero.</p>
-        <label class="field-label" for="user">Usuario</label>
-        <select id="user"><option value="">Cargando usuarios...</option></select>
-        <label class="field-label" for="pass">Contraseña</label>
-        <input id="pass" type="password" placeholder="Ingresa tu contraseña">
-        <button id="loginBtn" class="login-btn">Ingresar al tablero</button>
-        <small id="loginMsg"></small>
-        <div class="secure-note">● Conexión con control de acceso</div>
+        <span class="eyebrow">ACCESO SEGURO</span><h2>Bienvenido</h2><p>Selecciona tu usuario para ingresar al tablero.</p>
+        <label class="field-label" for="user">Usuario</label><select id="user"><option value="">Cargando usuarios...</option></select>
+        <label class="field-label" for="pass">Contraseña</label><input id="pass" type="password" placeholder="Ingresa tu contraseña">
+        <button id="loginBtn" class="login-btn">Ingresar al tablero</button><small id="loginMsg"></small><div class="secure-note">● Conexión con control de acceso</div>
       </section>
     </div>
   </div>
 
   <div id="app" class="app hidden">
     <aside>
-      <div class="side-brand">
-        <div class="brand-mark small">C</div>
-        <div><h2>CONCIL.IA</h2><small>JDE vs Saldos</small></div>
-      </div>
+      <div class="side-brand"><div class="brand-mark small">C</div><div><h2>CONCIL.IA</h2><small>JDE vs Saldos</small></div></div>
       <div class="side-section">NAVEGACIÓN</div>
       <nav>
         <button data-view="carga" class="active"><span>▣</span> Cargar archivos</button>
@@ -51,85 +35,61 @@
         <button data-view="adeudos"><span>$</span> Adeudos</button>
         <button data-view="copiloto"><span>✦</span> Copiloto</button>
       </nav>
-      <div class="side-status"><i></i><div><strong>Sistema operativo</strong><small>Listo para conciliar</small></div></div>
-      <div class="who" id="who"></div>
+      <div class="side-status"><i></i><div><strong>Sistema operativo</strong><small id="sideState">Listo para conciliar</small></div></div><div class="who" id="who"></div>
     </aside>
 
     <main>
       <header>
-        <div>
-          <span class="eyebrow">TABLERO EJECUTIVO DE CONCILIACIÓN</span>
-          <h1 id="hello">👋 Hola.</h1>
-          <p>Vista consolidada de JDE vs Saldos por Conductor</p>
-        </div>
-        <div class="header-actions">
-          <div class="live-pill"><i></i> En línea</div>
-          <button id="logout">Cerrar sesión</button>
-        </div>
+        <div><span class="eyebrow">TABLERO EJECUTIVO DE CONCILIACIÓN</span><h1 id="hello">👋 Hola.</h1><p>Vista consolidada de JDE vs Saldos por Conductor</p></div>
+        <div class="header-actions"><div class="live-pill"><i></i> En línea</div><button id="logout">Cerrar sesión</button></div>
       </header>
 
       <section id="carga" class="view active">
-        <div class="page-head">
-          <div><span class="eyebrow">PROCESO DE CONCILIACIÓN</span><h2>Carga de información</h2><p>Integra los reportes de ADO, SUR y TRT para generar el análisis consolidado.</p></div>
-          <div class="step-badge">Paso 1 de 1</div>
-        </div>
+        <div class="page-head"><div><span class="eyebrow">PROCESO DE CONCILIACIÓN</span><h2>Carga de información</h2><p>Integra los reportes de ADO, SUR y TRT para generar el análisis consolidado.</p></div><div class="step-badge">6 archivos requeridos</div></div>
         <div class="upload-grid">
-          <div class="hero executive-card">
-            <div class="card-icon">↥</div>
-            <div><h3>Reportes requeridos</h3><p>Selecciona los 3 archivos JDE y los 3 reportes de Saldos por Conductor. El sistema identifica cada marca automáticamente.</p></div>
-          </div>
-          <div class="drop executive-card">
-            <input id="files" type="file" multiple accept=".csv">
-            <label for="files"><span>＋</span> Seleccionar archivos CSV</label>
-            <p class="drop-help">Puedes seleccionar varios archivos al mismo tiempo</p>
-            <div id="fileList"></div>
-          </div>
+          <div class="hero executive-card"><div class="card-icon">↥</div><div><h3>Reportes requeridos</h3><p>Selecciona los 3 archivos JDE y los 3 reportes de Saldos por Conductor. El sistema identifica cada marca automáticamente.</p><div class="file-checks" id="fileChecks"></div></div></div>
+          <div class="drop executive-card"><input id="files" type="file" multiple accept=".csv"><label for="files"><span>＋</span> Seleccionar archivos CSV</label><p class="drop-help">Puedes seleccionar varios archivos al mismo tiempo</p><div id="fileList"></div></div>
         </div>
-        <button class="primary" id="run"><span>✦</span> Ejecutar conciliación</button>
-        <div id="status" class="status"></div>
+        <button class="primary" id="run"><span>✦</span> Ejecutar conciliación</button><div id="status" class="status"></div>
       </section>
 
       <section id="resumen" class="view">
-        <div class="page-head"><div><span class="eyebrow">VISIÓN GENERAL</span><h2>Resumen ejecutivo</h2><p>Indicadores clave para una lectura inmediata del estado de la conciliación.</p></div></div>
+        <div class="page-head"><div><span class="eyebrow">VISIÓN GENERAL</span><h2>Resumen ejecutivo</h2><p>Indicadores clave y lectura automática del estado de la conciliación.</p></div><button class="secondary" id="exportExecutive">↓ Exportar reporte ejecutivo</button></div>
+        <div class="health-strip" id="healthStrip"><div class="health-dot"></div><div><span>ESTADO DE CONCILIACIÓN</span><strong id="healthTitle">Sin información</strong><small id="healthText">Carga los archivos para comenzar.</small></div><div class="health-score"><span id="kPct">0%</span><small>Conciliado</small></div></div>
         <div class="kpis">
           <article><div class="kpi-top"><span>Conductores analizados</span><b>01</b></div><strong id="kConductores">0</strong><small>Universo conciliado</small></article>
           <article><div class="kpi-top"><span>Con diferencias</span><b>02</b></div><strong id="kDif">0</strong><small>Requieren atención</small></article>
           <article><div class="kpi-top"><span>Adeudo total en Saldos</span><b>03</b></div><strong id="kAdeudo">$0.00</strong><small>Exposición acumulada</small></article>
           <article><div class="kpi-top"><span>Diferencia neta</span><b>04</b></div><strong id="kNeta">$0.00</strong><small>Brecha consolidada</small></article>
         </div>
-        <div class="panel">
-          <div class="panel-head"><div><span class="eyebrow">SEGMENTACIÓN</span><h3>Resumen por marca</h3></div><span class="panel-note">ADO · SUR · TRT</span></div>
-          <div id="brandCards" class="brands"></div>
+        <div class="dashboard-grid">
+          <div class="panel executive-summary"><div class="panel-head"><div><span class="eyebrow">LECTURA AUTOMÁTICA</span><h3>Resumen Ejecutivo Inteligente</h3></div><span class="ai-chip">✦ IA operativa</span></div><div id="executiveNarrative" class="narrative">Carga los archivos para generar el diagnóstico ejecutivo.</div><div id="insightChips" class="insight-chips"></div></div>
+          <div class="panel"><div class="panel-head"><div><span class="eyebrow">SEMÁFORO</span><h3>Calidad de conciliación</h3></div><span class="panel-note">Porcentaje cuadrado</span></div><div class="gauge-wrap"><div class="gauge"><div id="gaugeFill" class="gauge-fill"></div><div class="gauge-center"><strong id="gaugeValue">0%</strong><small>conciliado</small></div></div><div class="legend"><span><i class="lg green"></i> ≥ 98%</span><span><i class="lg amber"></i> 90–97.99%</span><span><i class="lg red"></i> &lt; 90%</span></div></div></div>
         </div>
+        <div class="panel"><div class="panel-head"><div><span class="eyebrow">COMPARATIVO OPERATIVO</span><h3>ADO · SUR · TRT</h3></div><span class="panel-note">Impacto por marca</span></div><div id="brandCards" class="brands"></div></div>
       </section>
 
       <section id="diferencias" class="view">
-        <div class="page-head"><div><span class="eyebrow">ANÁLISIS DE EXCEPCIONES</span><h2>Diferencias por conductor</h2><p>Consulta, filtra y exporta las partidas que requieren seguimiento.</p></div></div>
-        <div class="toolbar">
-          <div class="search-wrap">⌕ <input id="search" placeholder="Buscar conductor, nombre o marca"></div>
-          <select id="brand"><option value="">Todas las marcas</option><option>ADO</option><option>SUR</option><option>TRT</option></select>
-          <select id="type"><option value="">Todos los tipos</option><option>Diferencia de saldo</option><option>Solo en JDE</option><option>Solo en Saldos</option><option>Cuadrado</option></select>
-          <button id="export">↓ Exportar CSV</button>
-        </div>
-        <div class="tablewrap"><table><thead><tr><th>Marca</th><th>Conductor</th><th>Nombre</th><th>JDE</th><th>Saldos</th><th>Diferencia</th><th>Estado</th></tr></thead><tbody id="diffBody"></tbody></table></div>
+        <div class="page-head"><div><span class="eyebrow">ANÁLISIS DE EXCEPCIONES</span><h2>Diferencias por conductor</h2><p>Consulta, filtra y abre la Vista 360° de cada conductor.</p></div></div>
+        <div class="quick-filters"><button data-quick="all" class="active">Todos</button><button data-quick="critical">Diferencia alta</button><button data-quick="jde">Solo JDE</button><button data-quick="saldos">Solo Saldos</button><button data-quick="balanced">Cuadrados</button></div>
+        <div class="toolbar"><div class="search-wrap">⌕ <input id="search" placeholder="Buscar conductor, nombre o marca"></div><select id="brand"><option value="">Todas las marcas</option><option>ADO</option><option>SUR</option><option>TRT</option></select><select id="type"><option value="">Todos los tipos</option><option>Diferencia de saldo</option><option>Solo en JDE</option><option>Solo en Saldos</option><option>Cuadrado</option></select><button id="export">↓ Exportar CSV</button></div>
+        <div class="tablewrap"><table><thead><tr><th>Marca</th><th>Conductor</th><th>Nombre</th><th>JDE</th><th>Saldos</th><th>Diferencia</th><th>Estado</th><th></th></tr></thead><tbody id="diffBody"></tbody></table></div>
       </section>
 
       <section id="adeudos" class="view">
         <div class="page-head"><div><span class="eyebrow">RIESGO Y RECUPERACIÓN</span><h2>Conductores con mayor adeudo</h2><p>Priorización ejecutiva de los saldos con mayor impacto.</p></div></div>
-        <div class="panel"><div class="panel-head"><div><span class="eyebrow">TOP DE EXPOSICIÓN</span><h3>Mayores adeudos</h3></div><span class="panel-note">Orden descendente</span></div><div id="debtList"></div></div>
+        <div class="dashboard-grid"><div class="panel"><div class="panel-head"><div><span class="eyebrow">TOP DE EXPOSICIÓN</span><h3>Mayores adeudos</h3></div><span class="panel-note">Top 20</span></div><div id="debtList"></div></div><div class="panel"><div class="panel-head"><div><span class="eyebrow">CONCENTRACIÓN</span><h3>Distribución del adeudo</h3></div></div><div id="debtByBrand" class="bar-list"></div></div></div>
       </section>
 
       <section id="copiloto" class="view">
-        <div class="page-head"><div><span class="eyebrow">ASISTENTE DE CONCILIACIÓN</span><h2>Copiloto</h2><p>Consulta rápidamente hallazgos y métricas del análisis.</p></div></div>
-        <div class="chat">
-          <div class="copilot-head"><div class="copilot-avatar">✦</div><div><strong>Copiloto CONCIL.IA</strong><small>Asistente operativo</small></div><span class="live-pill"><i></i> Disponible</span></div>
-          <div id="chatLog"><div class="bot">Hola. Puedo explicarte las diferencias, decirte qué archivos faltan o mostrarte los mayores adeudos.</div></div>
-          <div class="suggestions"><button>¿Cuántas diferencias hay?</button><button>¿Cuál es el mayor adeudo?</button><button>¿Qué archivos faltan?</button></div>
-          <div class="chatbox"><input id="question" placeholder="Escribe tu duda sobre la conciliación..."><button id="ask">Enviar</button></div>
-        </div>
+        <div class="page-head"><div><span class="eyebrow">ASISTENTE DE CONCILIACIÓN</span><h2>Copiloto</h2><p>Pregunta por hallazgos, marcas, diferencias y conductores críticos.</p></div></div>
+        <div class="chat"><div class="copilot-head"><div class="copilot-avatar">✦</div><div><strong>Copiloto CONCIL.IA</strong><small>Asistente operativo</small></div><span class="live-pill"><i></i> Disponible</span></div><div id="chatLog"><div class="bot">Hola. Puedo explicarte por qué no cuadra la conciliación, cuál marca concentra más diferencias o quién tiene el mayor adeudo.</div></div><div class="suggestions"><button>¿Por qué no cuadra?</button><button>¿Qué marca tiene más diferencias?</button><button>¿Cuál es el mayor adeudo?</button><button>¿Quién solo aparece en JDE?</button></div><div class="chatbox"><input id="question" placeholder="Escribe tu duda sobre la conciliación..."><button id="ask">Enviar</button></div></div>
       </section>
     </main>
   </div>
+
+  <div id="driverModal" class="modal hidden"><div class="modal-backdrop" data-close-modal></div><div class="modal-card"><button class="modal-close" data-close-modal>×</button><div id="driverDetail"></div></div></div>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="config.js"></script><script src="app.js"></script>
 </body>
 </html>

@@ -1,25 +1,31 @@
-# CONCIL.IA · JDE vs Saldos por Conductor
+# CONCIL.IA · JDE vs Saldos por Conductor — Executive Intelligence
 
-Portal estático listo para GitHub Pages.
+Versión ejecutiva tipo Power BI para conciliar archivos JDE contra Saldos por Conductor de ADO, SUR y TRT.
 
-## Uso
-1. Sube `index.html`, `styles.css`, `app.js` y `config.js` a un repositorio de GitHub.
-2. Activa GitHub Pages desde la rama principal.
-3. El login apunta al Apps Script configurado en `config.js`.
-4. Carga los seis CSV: JDE ADO/SUR/TRT y Saldos por Conductor ADO/SUR/TRT.
+## Funciones principales
+- Login con usuarios activos cargados desde Google Sheets mediante Apps Script.
+- Carga y detección automática de los seis CSV requeridos.
+- Conciliación por número de conductor.
+- Resumen Ejecutivo Inteligente.
+- Semáforo de calidad de conciliación y porcentaje cuadrado.
+- Comparativo ADO / SUR / TRT.
+- Diferencias: saldo distinto, solo JDE, solo Saldos y cuadrados.
+- Filtros rápidos y búsqueda.
+- Vista 360° del conductor con diagnóstico automático.
+- Ranking de mayores adeudos y concentración por marca.
+- Copiloto con preguntas sobre los datos cargados.
+- Exportación CSV.
+- Reporte Ejecutivo Excel con hojas: Resumen Ejecutivo, Conciliación, Diferencias, Adeudos, Solo JDE y Solo Saldos.
 
-## Lógica de conciliación
-- Normaliza `LM aux` de JDE quitando ceros iniciales.
-- JDE usa `Importe real acumulado`.
-- Saldos suma `SdoActual` por empleado.
-- Clasifica: Cuadrado, Diferencia de saldo, Solo en JDE, Solo en Saldos.
-- Incluye resumen, ranking de adeudos, filtros, exportación CSV y copiloto local.
+## Implementación
+1. Descomprime el proyecto y sube los archivos de la carpeta a tu repositorio GitHub Pages.
+2. `config.js` ya contiene la URL del Apps Script configurada anteriormente.
+3. Conserva tu `Code.gs` desplegado como aplicación web con acceso adecuado.
+4. Para generar archivos XLSX, la página carga SheetJS desde CDN. Si la red bloquea esa librería, la aplicación exportará CSV como respaldo.
 
-## Nota del login
-El frontend intenta validar con:
-`?accion=login&usuario=...&password=...`
-Si tu Apps Script usa nombres de parámetros distintos, modifica únicamente la función `login()` en `app.js`.
-
-
-## Login desde Google Sheets
-Se incluye `Code.gs` para Apps Script. La web llama `?accion=usuarios` para llenar el selectbox y `?accion=login&usuario=...&password=...` para validar. El endpoint de usuarios nunca devuelve contraseñas.
+## Archivos
+- `index.html`: interfaz.
+- `styles.css`: diseño ejecutivo.
+- `app.js`: conciliación, dashboard, copiloto y exportaciones.
+- `config.js`: URL de Apps Script.
+- `Code.gs`: backend de autenticación de referencia.
