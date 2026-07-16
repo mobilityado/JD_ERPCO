@@ -669,3 +669,145 @@ body:not(.light-theme) .legend,
 body:not(.light-theme) .legend span {
   color:#aeb7c3 !important;
 }
+
+
+/* =========================================================
+   V6 · EXECUTIVE CONTROL
+   ========================================================= */
+
+.presentation-toggle{
+  margin-left:8px;
+  white-space:nowrap;
+}
+
+.attention-panel{
+  border-left:3px solid #ef4444;
+}
+.attention-total{
+  text-align:right;
+  min-width:150px;
+}
+.attention-total span{
+  display:block;
+  color:var(--muted,#94a3b8);
+  font-size:.78rem;
+}
+.attention-total strong{
+  display:block;
+  font-size:1.9rem;
+  line-height:1;
+  margin-top:6px;
+  color:#ef4444;
+}
+.attention-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:12px;
+  margin-top:16px;
+}
+.attention-card{
+  border:1px solid rgba(239,68,68,.22);
+  background:rgba(239,68,68,.06);
+  border-radius:16px;
+  padding:14px 16px;
+  display:grid;
+  gap:7px;
+}
+.attention-card .attention-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+.attention-card .attention-head strong{
+  font-size:.95rem;
+}
+.attention-card .attention-diff{
+  font-weight:800;
+  color:#ef4444;
+  white-space:nowrap;
+}
+.attention-card .attention-meta{
+  color:var(--muted,#94a3b8);
+  font-size:.78rem;
+}
+.attention-card .attention-diagnosis{
+  font-size:.82rem;
+  line-height:1.45;
+}
+.empty-attention{
+  color:var(--muted,#94a3b8);
+  padding:10px 0;
+}
+
+.brand-exec-table-wrap{
+  overflow:auto;
+  margin-top:14px;
+}
+.brand-exec-table{
+  width:100%;
+  border-collapse:collapse;
+}
+.brand-exec-table th,
+.brand-exec-table td{
+  padding:12px 14px;
+  text-align:right;
+  border-bottom:1px solid rgba(148,163,184,.12);
+}
+.brand-exec-table th:first-child,
+.brand-exec-table td:first-child{
+  text-align:left;
+}
+.brand-exec-table .brand-name{
+  font-weight:800;
+}
+.brand-exec-table .pct-good{ color:#22c55e; font-weight:800; }
+.brand-exec-table .pct-warn{ color:#f59e0b; font-weight:800; }
+.brand-exec-table .pct-bad{ color:#ef4444; font-weight:800; }
+
+.executive-mode .toolbar,
+.executive-mode .quick-filters,
+.executive-mode .tablewrap,
+.executive-mode #attentionRequiredPanel,
+.executive-mode .upload-zone,
+.executive-mode .file-checks,
+.executive-mode .brand-mode,
+.executive-mode .copilot-panel{
+  display:none !important;
+}
+.executive-mode main{
+  max-width:1600px;
+}
+.executive-mode .presentation-toggle{
+  background:linear-gradient(110deg,#ea580c,#f97316,#f59e0b)!important;
+  color:#fff!important;
+  border-color:transparent!important;
+}
+.executive-mode .presentation-toggle::after{
+  content:" · Salir";
+}
+
+body.light-theme .attention-card{
+  background:#fff7f7;
+  border-color:#fecaca;
+}
+body.light-theme .attention-card .attention-diagnosis{
+  color:#475467;
+}
+body.light-theme .brand-exec-table th{
+  background:#f8fafc!important;
+  color:#475467!important;
+}
+body.light-theme .brand-exec-table td{
+  color:#344054!important;
+}
+
+@media (max-width: 900px){
+  .presentation-toggle{
+    width:100%;
+    margin:8px 0 0;
+  }
+  .attention-list{
+    grid-template-columns:1fr;
+  }
+}

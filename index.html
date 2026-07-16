@@ -41,7 +41,12 @@
       <header>
         <div><span class="eyebrow">TABLERO EJECUTIVO DE CONCILIACIÓN</span><h1 id="hello">👋 Hola.</h1><p>Conciliación ejecutiva por marca: ADO · AAO · TRT · ADO · AAO · TRT</p></div>
         <div class="header-actions"><button id="themeToggle" class="theme-toggle" title="Cambiar modo de visualización">☀️ Modo claro</button><div class="live-pill"><i></i> En línea</div><button id="logout">Cerrar sesión</button></div>
-      </header>
+      
+<button id="presentationModeBtn" class="secondary presentation-toggle" type="button">
+  📺 Vista Ejecutiva
+</button>
+
+</header>
 
       <section id="carga" class="view active">
         <div class="page-head"><div><span class="eyebrow">PROCESO DE CONCILIACIÓN</span><h2>Carga de información</h2><p>Selecciona una marca o concilia todas al mismo tiempo. Solo se exigirán los archivos correspondientes a la modalidad elegida.</p></div><div class="step-badge" id="requiredBadge">2 archivos requeridos</div></div>
@@ -64,7 +69,7 @@
         </div>
         <div class="dashboard-grid">
           <div class="panel executive-summary"><div class="panel-head"><div><span class="eyebrow">LECTURA AUTOMÁTICA</span><h3>Resumen Ejecutivo Inteligente</h3></div><span class="ai-chip">✦ IA operativa</span></div><div id="executiveNarrative" class="narrative">Carga los archivos para generar el diagnóstico ejecutivo.</div><div id="insightChips" class="insight-chips"></div></div>
-          <div class="panel"><div class="panel-head"><div><span class="eyebrow">SEMÁFORO</span><h3>Calidad de conciliación</h3></div><span class="panel-note">Porcentaje cuadrado</span></div><div class="gauge-wrap"><div class="gauge"><div id="gaugeFill" class="gauge-fill"></div><div class="gauge-center"><strong id="gaugeValue">0%</strong><small>conciliado</small></div></div><div class="legend"><span><i class="lg green"></i> ≥ 98%</span><span><i class="lg amber"></i> 90–97.99%</span><span><i class="lg red"></i> &lt; 90%</span></div></div></div>
+          <div class="panel"><div class="panel-head"><div><span class="eyebrow">SEMÁFORO</span><h3>Índice de conciliación</h3></div><span class="panel-note">Porcentaje cuadrado</span></div><div class="gauge-wrap"><div class="gauge"><div id="gaugeFill" class="gauge-fill"></div><div class="gauge-center"><strong id="gaugeValue">0%</strong><small>conciliado</small></div></div><div class="legend"><span><i class="lg green"></i> ≥ 98%</span><span><i class="lg amber"></i> 90–97.99%</span><span><i class="lg red"></i> &lt; 90%</span></div></div></div>
         </div>
         <div class="panel"><div class="panel-head"><div><span class="eyebrow">COMPARATIVO OPERATIVO</span><h3>ADO · AAO · TRT</h3></div><span class="panel-note">Impacto por marca</span></div><div id="brandCards" class="brands"></div></div>
       </section>
@@ -73,7 +78,50 @@
         <div class="page-head"><div><span class="eyebrow">ANÁLISIS DE EXCEPCIONES</span><h2>Diferencias por conductor</h2><p>Cotejo total por conductor: JDE vs ERPCO, con diagnóstico automático de cuadre o diferencia.</p></div></div>
         <div class="quick-filters"><button data-quick="all" class="active">Todos</button><button data-quick="critical">Diferencia alta</button><button data-quick="jde">Solo JDE</button><button data-quick="saldos">Solo Saldos</button><button data-quick="balanced">Cuadrados</button></div>
         <div class="toolbar"><div class="search-wrap">⌕ <input id="search" placeholder="Buscar conductor, nombre o marca"></div><select id="brand"><option value="">Todas las marcas</option><option>ADO</option><option>AAO</option><option>TRT</option></select><select id="type"><option value="">Todos los tipos</option><option>Diferencia de saldo</option><option>Solo en JDE</option><option>Solo en Saldos</option><option>Cuadrado</option></select><button id="export">↓ Exportar CSV</button></div>
-        <div class="tablewrap"><table><thead><tr><th>Marca</th><th>Conductor</th><th>Nombre</th><th>JDE</th><th>ERPCO / Saldos</th><th>Diferencia</th><th>Estado</th><th>Resultado</th><th></th></tr></thead><tbody id="diffBody"></tbody></table></div>
+        
+<section id="brandExecutiveComparison" class="panel brand-exec-panel">
+  <div class="panel-head">
+    <div>
+      <span class="eyebrow">COMPARATIVO POR MARCA</span>
+      <h3>Resumen consolidado ADO · AAO · TRT</h3>
+    </div>
+  </div>
+  <div class="brand-exec-table-wrap">
+    <table class="brand-exec-table">
+      <thead>
+        <tr>
+          <th>Marca</th>
+          <th>Conductores</th>
+          <th>Cuadrados</th>
+          <th>Con diferencia</th>
+          <th>Diferencia total</th>
+          <th>% Cuadre</th>
+        </tr>
+      </thead>
+      <tbody id="brandExecutiveBody"></tbody>
+    </table>
+  </div>
+</section>
+
+
+<section id="attentionRequiredPanel" class="panel attention-panel">
+  <div class="panel-head">
+    <div>
+      <span class="eyebrow">ATENCIÓN REQUERIDA</span>
+      <h3>Casos que requieren revisión</h3>
+      <p class="panel-note">Se muestran automáticamente los conductores con mayor diferencia.</p>
+    </div>
+    <div class="attention-total">
+      <span>Registros con diferencia</span>
+      <strong id="attentionCount">0</strong>
+    </div>
+  </div>
+  <div id="attentionList" class="attention-list">
+    <div class="empty-attention">Carga y procesa los archivos para identificar excepciones.</div>
+  </div>
+</section>
+
+<div class="tablewrap"><table><thead><tr><th>Marca</th><th>Conductor</th><th>Nombre</th><th>JDE</th><th>ERPCO / Saldos</th><th>Diferencia</th><th>Estado</th><th>Resultado</th><th></th></tr></thead><tbody id="diffBody"></tbody></table></div>
       </section>
 
       <section id="adeudos" class="view">
