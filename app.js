@@ -1,6 +1,8 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const cfg=window.CONCILIA_CONFIG||{};
 let selected=[], rows=[], currentUser=null, lastFound={}, quickFilter='all', brandMode='ADO';
+// Conceptos ERPCO que el cuadre manual coteja contra JDE. Se pueden ampliar aquí si aparecen nuevos conceptos.
+const CONCILIABLE_CODES=new Set(['853','3220','741','501']);
 const fmt=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(n||0);
 const pct=n=>`${(n||0).toFixed(2)}%`;
 const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
@@ -62,17 +64,20 @@ async function reconcile(){
       for(const r of data.slice(2)){
         if(!r[0]||/^total por empleado/i.test(r[0])||!/^[0-9]+$/.test(String(r[0]).trim()))continue;
         const id=normId(r[0]),k=b+'|'+id;
-        if(!sal[k])sal[k]={brand:b,id,name:[r[1],r[2],r[3]].filter(Boolean).join(' ').trim(),amount:0,concepts:[]};
-        const amount=num(r[9]);sal[k].amount+=amount;
-        sal[k].concepts.push({concept:String(r[5]||''),code:String(r[4]||''),amount,date:String(r[11]||'')});
+        if(!sal[k])sal[k]={brand:b,id,name:[r[1],r[2],r[3]].filter(Boolean).join(' ').trim(),amount:0,totalDebt:0,concepts:[]};
+        const amount=num(r[9]), code=String(r[4]||'').trim();
+        sal[k].totalDebt+=amount;
+        if(CONCILIABLE_CODES.has(code)) sal[k].amount+=amount;
+        sal[k].concepts.push({concept:String(r[5]||''),code,amount,date:String(r[11]||''),conciliable:CONCILIABLE_CODES.has(code)});
       }
     }
   }
   const required=activeBrands(), missing=[];for(const b of required){if(!found[b]?.jde)missing.push(`JDE ${b}`);if(!found[b]?.sal)missing.push(`Saldos ${b}`)}
   const completeBrands=required.filter(b=>found[b]?.jde&&found[b]?.sal);
   if(!completeBrands.length){lastFound=found;return setStatus('🤔 Para conciliar necesito al menos un par completo JDE + Saldos de la marca seleccionada. Falta: '+missing.join(', ')+'.')}
-  const keys=new Set([...Object.keys(jde),...Object.keys(sal)].filter(k=>completeBrands.includes(k.split('|')[0])));
-  rows=[...keys].map(k=>{const j=jde[k],s=sal[k],jv=j?.amount||0,sv=s?.amount||0,d=sv-jv;const state=!j?'Solo en Saldos':!s?'Solo en JDE':Math.abs(d)<=.01?'Cuadrado':'Diferencia de saldo';const name=s?.name||j?.name||'';const result=state==='Cuadrado'?`${name||'El conductor'} no tiene diferencia: Total JDE ${fmt(jv)} y Total ERPCO ${fmt(sv)}. CUADRADO.`:state==='Diferencia de saldo'?`${name||'El conductor'} descuadra por ${fmt(Math.abs(d))}. Total JDE ${fmt(jv)} vs Total ERPCO ${fmt(sv)}.`:state==='Solo en JDE'?`${name||'El conductor'} tiene ${fmt(jv)} en JDE y no aparece en ERPCO.`:`${name||'El conductor'} tiene ${fmt(sv)} en ERPCO y no aparece en JDE.`;return{brand:(j||s).brand,id:(j||s).id,name,jde:jv,saldos:sv,diff:d,state,result,concepts:s?.concepts||[]}}).sort((a,b)=>Math.abs(b.diff)-Math.abs(a.diff));
+  // El archivo manual parte de los conductores presentes en JDE; ERPCO aporta únicamente los conceptos conciliables.
+  const keys=new Set(Object.keys(jde).filter(k=>completeBrands.includes(k.split('|')[0])));
+  rows=[...keys].map(k=>{const j=jde[k],s=sal[k],jv=j?.amount||0,sv=s?.amount||0,totalDebt=s?.totalDebt||0,d=sv-jv;const state=!j?'Solo en Saldos':!s?'Solo en JDE':Math.abs(d)<=.01?'Cuadrado':'Diferencia de saldo';const name=s?.name||j?.name||'';const result=state==='Cuadrado'?`${name||'El conductor'} no tiene diferencia: Total JDE ${fmt(jv)} y Total ERPCO ${fmt(sv)}. CUADRADO.`:state==='Diferencia de saldo'?`${name||'El conductor'} descuadra por ${fmt(Math.abs(d))}. Total JDE ${fmt(jv)} vs Total ERPCO ${fmt(sv)}.`:state==='Solo en JDE'?`${name||'El conductor'} tiene ${fmt(jv)} en JDE y no aparece en ERPCO.`:`${name||'El conductor'} tiene ${fmt(sv)} en ERPCO y no aparece en JDE.`;return{brand:(j||s).brand,id:(j||s).id,name,jde:jv,saldos:sv,totalDebt,diff:d,state,result,concepts:s?.concepts||[]}}).sort((a,b)=>Math.abs(b.diff)-Math.abs(a.diff));
   lastFound=found; render();
   const d=rows.filter(r=>r.state!=='Cuadrado').length;
   if(missing.length)setStatus(`✅ Conciliación parcial terminada para ${completeBrands.join(', ')}.\n🤔 No procesé los pares incompletos: ${missing.join(', ')}.`);
@@ -121,7 +126,7 @@ function renderDebts(s){
   const max=Math.max(1,...s.brands.map(x=>x.debt));$('#debtByBrand').innerHTML=s.brands.map(x=>`<div class="bar-item"><div class="bar-head"><b>${x.brand}</b><span>${fmt(x.debt)}</span></div><div class="bar-track"><div class="bar-fill" style="width:${x.debt/max*100}%"></div></div></div>`).join('');
 }
 function diagnosis(r){if(r.state==='Cuadrado')return `${r.name||'El conductor'} está CUADRADO. Total de adeudos/descuentos en JDE: ${fmt(r.jde)}. Total en ERPCO: ${fmt(r.saldos)}. Diferencia: ${fmt(0)}.`;if(r.state==='Solo en JDE')return `${r.name||'El conductor'} tiene ${fmt(r.jde)} en JDE y no tiene saldo equivalente en ERPCO. Diferencia pendiente: ${fmt(Math.abs(r.diff))}.`;if(r.state==='Solo en Saldos')return `${r.name||'El conductor'} tiene ${fmt(r.saldos)} en ERPCO y no tiene saldo equivalente en JDE. Diferencia pendiente: ${fmt(Math.abs(r.diff))}.`;return `${r.name||'El conductor'} DESCUADRA por ${fmt(Math.abs(r.diff))}. Total de adeudos/descuentos en JDE: ${fmt(r.jde)}. Total en ERPCO: ${fmt(r.saldos)}. ${r.diff>0?'ERPCO es mayor que JDE.':'JDE es mayor que ERPCO.'}`}
-function openDriver(key){const r=rows.find(x=>x.brand+'|'+x.id===key);if(!r)return;const detail=r.concepts?.length?`<div class="concept-detail"><h3>Detalle de conceptos ERPCO / Saldos</h3><div class="tablewrap"><table><thead><tr><th>Código</th><th>Concepto</th><th>Importe</th><th>Fecha</th></tr></thead><tbody>${r.concepts.map(c=>`<tr><td>${esc(c.code)}</td><td>${esc(c.concept)}</td><td class="money">${fmt(c.amount)}</td><td>${esc(c.date)}</td></tr>`).join('')}</tbody></table></div></div>`:'<div class="diagnosis">No hay detalle de conceptos disponible para este conductor.</div>';$('#driverDetail').innerHTML=`<div class="detail-hero"><div><span class="eyebrow">VISTA 360° DEL CONDUCTOR</span><h2>${esc(r.name||'Conductor '+r.id)}</h2><p>${esc(r.brand)} · Clave ${esc(r.id)}</p></div><span class="badge ${r.state==='Cuadrado'?'ok':r.state.includes('Solo')?'warn':'bad'}">${esc(r.state)}</span></div><div class="detail-grid"><div class="detail-kpi"><span>Total ERPCO</span><strong>${fmt(r.saldos)}</strong></div><div class="detail-kpi"><span>Total adeudos JDE</span><strong>${fmt(r.jde)}</strong></div><div class="detail-kpi"><span>Diferencia ERPCO − JDE</span><strong>${fmt(r.diff)}</strong></div></div><div class="diagnosis"><b>Diagnóstico automático</b><br>${diagnosis(r)}</div>${detail}`;$('#driverModal').classList.remove('hidden')}
+function openDriver(key){const r=rows.find(x=>x.brand+'|'+x.id===key);if(!r)return;const detail=r.concepts?.length?`<div class="concept-detail"><h3>Detalle de conceptos ERPCO / Saldos</h3><div class="tablewrap"><table><thead><tr><th>Código</th><th>Concepto</th><th>Importe</th><th>Fecha</th></tr></thead><tbody>${r.concepts.map(c=>`<tr><td>${esc(c.code)}</td><td>${esc(c.concept)}</td><td class="money">${fmt(c.amount)}</td><td>${esc(c.date)}</td></tr>`).join('')}</tbody></table></div></div>`:'<div class="diagnosis">No hay detalle de conceptos disponible para este conductor.</div>';$('#driverDetail').innerHTML=`<div class="detail-hero"><div><span class="eyebrow">VISTA 360° DEL CONDUCTOR</span><h2>${esc(r.name||'Conductor '+r.id)}</h2><p>${esc(r.brand)} · Clave ${esc(r.id)}</p></div><span class="badge ${r.state==='Cuadrado'?'ok':r.state.includes('Solo')?'warn':'bad'}">${esc(r.state)}</span></div><div class="detail-grid"><div class="detail-kpi"><span>ERPCO conciliable</span><strong>${fmt(r.saldos)}</strong></div><div class="detail-kpi"><span>Adeudos totales ERPCO</span><strong>${fmt(r.totalDebt)}</strong></div><div class="detail-kpi"><span>Total adeudos JDE</span><strong>${fmt(r.jde)}</strong></div><div class="detail-kpi"><span>Diferencia ERPCO − JDE</span><strong>${fmt(r.diff)}</strong></div></div><div class="diagnosis"><b>Diagnóstico automático</b><br>${diagnosis(r)}</div>${detail}`;$('#driverModal').classList.remove('hidden')}
 $$('[data-close-modal]').forEach(x=>x.onclick=()=>$('#driverModal').classList.add('hidden'));
 
 $('#export').onclick=()=>exportCSV(filteredRows(),'CONCILIA_JDE_vs_SALDOS.csv');
