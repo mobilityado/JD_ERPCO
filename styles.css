@@ -2100,3 +2100,121 @@ body.light-theme .password-toggle-btn{
   visibility:visible !important;
   opacity:1 !important;
 }
+
+
+/* =========================================================
+   V7.5 · RESTAURACIÓN LAYOUT EJECUTIVO
+   Sidebar lateral fija + contenido a la derecha
+   ========================================================= */
+
+/* APP: recuperar estructura lateral original */
+#app:not(.hidden){
+  display:grid !important;
+  grid-template-columns:240px minmax(0,1fr) !important;
+  min-height:100vh !important;
+  width:100% !important;
+  align-items:stretch !important;
+}
+
+/* La barra principal permanece a la izquierda */
+#app:not(.hidden) > .sidebar,
+#app:not(.hidden) aside.sidebar,
+#app:not(.hidden) .app-sidebar{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  bottom:0 !important;
+  width:240px !important;
+  height:100vh !important;
+  z-index:100 !important;
+  overflow-y:auto !important;
+  box-sizing:border-box !important;
+  background:
+    radial-gradient(circle at 80% 15%,rgba(249,115,22,.10),transparent 28%),
+    linear-gradient(180deg,#18110d 0%,#0c0d0f 52%,#17100c 100%) !important;
+  border-right:1px solid rgba(249,115,22,.16) !important;
+}
+
+/* Contenido principal desplazado correctamente */
+#app:not(.hidden) > .main,
+#app:not(.hidden) > main,
+#app:not(.hidden) .main-content{
+  grid-column:2 !important;
+  min-width:0 !important;
+  width:auto !important;
+  margin-left:0 !important;
+  box-sizing:border-box !important;
+}
+
+/* Fallback cuando sidebar y main no son hijos directos */
+#app:not(.hidden) .sidebar + .main,
+#app:not(.hidden) .sidebar + main{
+  margin-left:240px !important;
+}
+
+/* CONCIL.IA blanca en sidebar */
+#app:not(.hidden) .sidebar .brand-name,
+#app:not(.hidden) .sidebar .logo-text,
+#app:not(.hidden) .sidebar h1,
+#app:not(.hidden) .sidebar h2,
+#app:not(.hidden) .app-sidebar .brand-name,
+#app:not(.hidden) .app-sidebar h1{
+  color:#ffffff !important;
+  opacity:1 !important;
+  text-shadow:0 2px 18px rgba(0,0,0,.25) !important;
+}
+
+/* Subtítulo visible */
+#app:not(.hidden) .sidebar .brand-subtitle,
+#app:not(.hidden) .sidebar .subtitle,
+#app:not(.hidden) .app-sidebar .brand-subtitle{
+  color:#cfd4dc !important;
+}
+
+/* Navegación lateral */
+#app:not(.hidden) .sidebar nav,
+#app:not(.hidden) .sidebar .nav,
+#app:not(.hidden) .app-sidebar nav{
+  display:flex !important;
+  flex-direction:column !important;
+  width:100% !important;
+}
+
+#app:not(.hidden) .sidebar .nav-item,
+#app:not(.hidden) .sidebar nav a,
+#app:not(.hidden) .app-sidebar .nav-item{
+  width:100% !important;
+  box-sizing:border-box !important;
+}
+
+/* El header ejecutivo ocupa la zona derecha, no toda la pantalla */
+#app:not(.hidden) header,
+#app:not(.hidden) .topbar,
+#app:not(.hidden) .dashboard-header{
+  margin-left:0 !important;
+}
+
+/* Responsive */
+@media(max-width:850px){
+  #app:not(.hidden){
+    display:block !important;
+  }
+
+  #app:not(.hidden) > .sidebar,
+  #app:not(.hidden) aside.sidebar,
+  #app:not(.hidden) .app-sidebar{
+    position:relative !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:auto !important;
+  }
+
+  #app:not(.hidden) > .main,
+  #app:not(.hidden) > main,
+  #app:not(.hidden) .main-content,
+  #app:not(.hidden) .sidebar + .main,
+  #app:not(.hidden) .sidebar + main{
+    margin-left:0 !important;
+    width:100% !important;
+  }
+}
