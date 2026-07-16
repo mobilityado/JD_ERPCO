@@ -369,9 +369,6 @@ body.light-theme .insight-chip {
 }
 
 /* Gráfica circular / semáforo */
-body.light-theme .gauge {
-  background:conic-gradient(#f97316 0deg,#e4e7ec 0) !important;
-}
 body.light-theme .gauge:after {
   background:#ffffff !important;
   box-shadow:inset 0 0 0 1px #e4e7ec !important;
@@ -611,4 +608,64 @@ body.light-theme *::-webkit-scrollbar-track {
 body.light-theme *::-webkit-scrollbar-thumb {
   background:#c8cdd4;
   border-color:#f3f4f6;
+}
+
+
+/* =========================================================
+   V5.2 · GAUGE DINÁMICO CORREGIDO
+   No sobrescribe el background de .gauge para preservar
+   el conic-gradient calculado dinámicamente por JavaScript.
+   ========================================================= */
+
+:root {
+  --gauge-track-dark:#e5e9ef;
+  --gauge-track-light:#e3e7ed;
+}
+
+body:not(.light-theme) .gauge {
+  /* El background dinámico lo controla JavaScript */
+  filter:drop-shadow(0 6px 18px rgba(0,0,0,.18));
+}
+
+body.light-theme .gauge {
+  /* El background dinámico lo controla JavaScript */
+  filter:drop-shadow(0 6px 16px rgba(15,23,42,.08));
+}
+
+body:not(.light-theme) .gauge:after {
+  background:#13161a !important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04) !important;
+}
+
+body.light-theme .gauge:after {
+  background:#ffffff !important;
+  box-shadow:inset 0 0 0 1px #e4e7ec !important;
+}
+
+body:not(.light-theme) .gauge-center strong {
+  color:#ffffff !important;
+  text-shadow:0 1px 10px rgba(0,0,0,.35) !important;
+}
+
+body.light-theme .gauge-center strong {
+  color:#101828 !important;
+  text-shadow:none !important;
+}
+
+body:not(.light-theme) .gauge-center small {
+  color:#aeb7c3 !important;
+}
+
+body.light-theme .gauge-center small {
+  color:#667085 !important;
+}
+
+body.light-theme .legend,
+body.light-theme .legend span {
+  color:#667085 !important;
+}
+
+body:not(.light-theme) .legend,
+body:not(.light-theme) .legend span {
+  color:#aeb7c3 !important;
 }
