@@ -1343,3 +1343,315 @@ body.light-theme .password-toggle-btn{
     padding-right:24px!important;
   }
 }
+
+
+/* =========================================================
+   V7.2 · EXECUTIVE ORANGE LOGIN
+   Fondo naranja premium + sidebar oscura + card blanca
+   ========================================================= */
+
+/* Layout general del acceso */
+#loginScreen,
+.login-screen,
+.login-shell,
+.auth-screen{
+  background:
+    radial-gradient(circle at 70% 18%,rgba(255,255,255,.28),transparent 30%),
+    radial-gradient(circle at 55% 65%,rgba(255,214,102,.28),transparent 32%),
+    linear-gradient(135deg,#ffb300 0%,#ff9800 35%,#ff7a00 72%,#f45100 100%) !important;
+}
+
+#loginScreen::after,
+.login-screen::after,
+.login-shell::after,
+.auth-screen::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 85% 80%,rgba(255,255,255,.15),transparent 24%),
+    linear-gradient(125deg,transparent 0 48%,rgba(255,255,255,.08) 49%,transparent 50%),
+    linear-gradient(25deg,transparent 0 70%,rgba(255,255,255,.07) 71%,transparent 72%);
+  opacity:.9;
+}
+
+/* Contenedor dividido y centrado */
+.login-container,
+.login-card,
+.auth-card{
+  width:min(1180px,calc(100vw - 40px)) !important;
+  min-height:680px !important;
+  display:grid !important;
+  grid-template-columns:360px minmax(0,1fr) !important;
+  background:transparent !important;
+  border:none !important;
+  box-shadow:0 30px 90px rgba(55,25,0,.28) !important;
+  overflow:hidden !important;
+  border-radius:30px !important;
+}
+
+/* Sidebar oscura */
+.login-brand-panel,
+.auth-left{
+  position:relative !important;
+  display:flex !important;
+  flex-direction:column !important;
+  padding:48px 40px 30px !important;
+  background:
+    radial-gradient(circle at 75% 25%,rgba(249,115,22,.12),transparent 30%),
+    linear-gradient(180deg,#17110d 0%,#0d0d0e 55%,#16100d 100%) !important;
+  color:#fff !important;
+  min-height:680px !important;
+}
+
+.login-brand-panel h1,
+.auth-left h1,
+.login-brand-panel h2,
+.auth-left h2{
+  color:#ffffff !important;
+  text-shadow:0 1px 18px rgba(0,0,0,.25);
+}
+.login-brand-panel p,
+.auth-left p,
+.login-brand-panel small,
+.auth-left small{
+  color:#d1d5db !important;
+}
+.login-brand-panel strong,
+.auth-left strong{
+  color:#ffffff !important;
+}
+
+.login-brand-panel::before,
+.auth-left::before{
+  content:"";
+  position:absolute;
+  inset:auto -80px 0 auto;
+  width:300px;
+  height:300px;
+  background:
+    radial-gradient(circle,rgba(249,115,22,.16),transparent 62%);
+  pointer-events:none;
+}
+
+/* Lista de atributos ejecutivos */
+.login-feature-list{
+  margin-top:42px;
+  display:grid;
+  gap:0;
+}
+.login-feature-item{
+  display:grid;
+  grid-template-columns:42px 1fr;
+  gap:14px;
+  align-items:start;
+  padding:18px 0;
+  border-bottom:1px solid rgba(255,255,255,.10);
+}
+.login-feature-item:first-child{
+  border-top:1px solid rgba(255,255,255,.10);
+}
+.login-feature-icon{
+  font-size:1.45rem;
+  line-height:1;
+  filter:saturate(1.1);
+}
+.login-feature-item strong{
+  display:block;
+  font-size:.9rem;
+  letter-spacing:.04em;
+}
+.login-feature-item small{
+  display:block;
+  margin-top:5px;
+  font-size:.78rem;
+  color:#b8bec7 !important;
+}
+
+.login-side-footer{
+  margin-top:auto;
+  padding-top:26px;
+  border-top:1px solid rgba(255,255,255,.10);
+  display:grid;
+  gap:6px;
+  font-size:.76rem;
+  color:#c9ced6;
+}
+
+/* Zona naranja derecha */
+.login-form-panel,
+.auth-right{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:56px !important;
+  background:
+    radial-gradient(circle at 30% 20%,rgba(255,255,255,.28),transparent 26%),
+    radial-gradient(circle at 80% 75%,rgba(255,255,255,.12),transparent 30%),
+    linear-gradient(135deg,#ffb612 0%,#ffa000 40%,#ff7a00 100%) !important;
+}
+
+/* Tarjeta blanca interna */
+.login-form-panel > form,
+.auth-right > form,
+.login-form-panel .login-form,
+.auth-right .login-form{
+  width:min(100%,560px) !important;
+  background:#ffffff !important;
+  border:1px solid rgba(255,255,255,.8) !important;
+  border-radius:28px !important;
+  padding:42px 44px 34px !important;
+  box-shadow:0 24px 60px rgba(91,42,0,.20) !important;
+}
+
+/* Asegura texto oscuro solo dentro del formulario */
+.login-form-panel h2,
+.auth-right h2,
+.login-form-panel label,
+.auth-right label,
+.login-form-panel .login-dynamic-greeting,
+.auth-right .login-dynamic-greeting{
+  color:#182230 !important;
+}
+.login-form-panel p,
+.auth-right p{
+  color:#667085 !important;
+}
+.login-form-panel .eyebrow,
+.auth-right .eyebrow{
+  color:#ea580c !important;
+  letter-spacing:.13em !important;
+}
+.login-dynamic-greeting{
+  margin-bottom:22px !important;
+  color:#667085 !important;
+  font-weight:500 !important;
+}
+
+/* Inputs blancos */
+.login-form-panel select,
+.login-form-panel input,
+.auth-right select,
+.auth-right input{
+  background:#ffffff !important;
+  color:#182230 !important;
+  border:1px solid #d0d5dd !important;
+  box-shadow:0 1px 2px rgba(16,24,40,.03) !important;
+}
+.login-form-panel select:focus,
+.login-form-panel input:focus,
+.auth-right select:focus,
+.auth-right input:focus{
+  border-color:#f97316 !important;
+  box-shadow:0 0 0 4px rgba(249,115,22,.10) !important;
+}
+.login-form-panel select option,
+.auth-right select option{
+  background:#ffffff !important;
+  color:#182230 !important;
+}
+
+.password-toggle-btn{
+  background:#f8fafc !important;
+  color:#475467 !important;
+  border-color:#e4e7ec !important;
+}
+.password-toggle-btn:hover{
+  color:#ea580c !important;
+  background:#fff7ed !important;
+  border-color:#fdba74 !important;
+}
+
+/* Botón principal más ejecutivo */
+.login-form-panel button[type="submit"],
+.auth-right button[type="submit"],
+.login-form-panel .login-btn,
+.auth-right .login-btn{
+  background:linear-gradient(100deg,#ffb300 0%,#ff8a00 46%,#f4511e 100%) !important;
+  color:#ffffff !important;
+  border:none !important;
+  min-height:56px !important;
+  font-size:1rem !important;
+  border-radius:14px !important;
+  box-shadow:0 12px 30px rgba(244,81,30,.24) !important;
+}
+.login-form-panel button[type="submit"]:hover,
+.auth-right button[type="submit"]:hover,
+.login-form-panel .login-btn:hover,
+.auth-right .login-btn:hover{
+  transform:translateY(-1px) !important;
+  box-shadow:0 16px 34px rgba(244,81,30,.32) !important;
+}
+
+/* Estado inferior dentro de tarjeta */
+.login-system-status{
+  margin-top:20px !important;
+  padding-top:20px;
+  border-top:1px solid #eef1f4;
+  color:#667085 !important;
+}
+
+/* Logo y textos izquierda más visibles */
+.login-brand-panel .eyebrow,
+.auth-left .eyebrow,
+.login-brand-panel .brand-kicker,
+.auth-left .brand-kicker{
+  color:#ff8a00 !important;
+}
+.login-brand-panel h1,
+.auth-left h1{
+  font-size:2.5rem !important;
+  letter-spacing:-.04em !important;
+  margin-top:28px !important;
+}
+.login-brand-panel p,
+.auth-left p{
+  font-size:.96rem !important;
+}
+
+/* Responsive */
+@media(max-width:900px){
+  .login-container,
+  .login-card,
+  .auth-card{
+    width:min(94vw,680px) !important;
+    grid-template-columns:1fr !important;
+    min-height:auto !important;
+  }
+  .login-brand-panel,
+  .auth-left{
+    min-height:auto !important;
+    padding:30px 28px 24px !important;
+  }
+  .login-feature-list{
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:24px;
+  }
+  .login-feature-item{
+    grid-template-columns:1fr;
+    padding:12px;
+    border:1px solid rgba(255,255,255,.08) !important;
+    border-radius:14px;
+  }
+  .login-side-footer{
+    display:none;
+  }
+  .login-form-panel,
+  .auth-right{
+    padding:28px 20px 34px !important;
+  }
+}
+@media(max-width:560px){
+  .login-feature-list{
+    grid-template-columns:1fr;
+  }
+  .login-form-panel > form,
+  .auth-right > form,
+  .login-form-panel .login-form,
+  .auth-right .login-form{
+    padding:30px 22px 26px !important;
+    border-radius:22px !important;
+  }
+}
