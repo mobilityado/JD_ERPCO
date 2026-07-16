@@ -2633,3 +2633,266 @@ body.light-theme .password-toggle-btn{
     padding:0 18px 34px !important;
   }
 }
+
+
+/* =========================================================
+   V7.9 · FIX DEFINITIVO COPILOTO VISIBLE
+   El panel del Copiloto es un <aside>, pero NO es el sidebar.
+   ========================================================= */
+
+/* Neutraliza cualquier regla genérica aplicada a aside */
+#app.app:not(.hidden) > #copilotPanel.copilot-panel{
+  grid-column:auto !important;
+  grid-row:auto !important;
+  position:fixed !important;
+  top:auto !important;
+  left:auto !important;
+  right:24px !important;
+  bottom:92px !important;
+
+  width:min(410px,calc(100vw - 36px)) !important;
+  min-width:320px !important;
+  max-width:410px !important;
+  height:min(620px,calc(100vh - 130px)) !important;
+  min-height:420px !important;
+  max-height:620px !important;
+
+  margin:0 !important;
+  padding:0 !important;
+
+  z-index:20002 !important;
+  overflow:hidden !important;
+
+  border:1px solid rgba(255,255,255,.12) !important;
+  border-radius:20px !important;
+
+  background:
+    linear-gradient(145deg,rgba(28,31,37,.98),rgba(10,12,15,.99)) !important;
+
+  box-shadow:
+    0 34px 100px rgba(0,0,0,.62),
+    0 0 48px rgba(255,122,24,.14),
+    inset 0 1px 0 rgba(255,255,255,.06) !important;
+
+  backdrop-filter:blur(26px) saturate(135%) !important;
+  -webkit-backdrop-filter:blur(26px) saturate(135%) !important;
+
+  color:#f5f7fa !important;
+}
+
+/* Estado cerrado */
+#app.app:not(.hidden) > #copilotPanel.copilot-panel.hidden{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+/* Estado abierto */
+#app.app:not(.hidden) > #copilotPanel.copilot-panel:not(.hidden){
+  display:flex !important;
+  flex-direction:column !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+  animation:copilotOpenV79 .2s ease-out both !important;
+}
+
+@keyframes copilotOpenV79{
+  from{
+    opacity:0;
+    transform:translateY(14px) scale(.97);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+/* Overlay debajo del panel, pero encima del dashboard */
+#copilotOverlay.copilot-overlay{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:20000 !important;
+  background:rgba(10,12,15,.48) !important;
+  backdrop-filter:blur(4px) !important;
+  -webkit-backdrop-filter:blur(4px) !important;
+}
+
+#copilotOverlay.copilot-overlay.hidden{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+#copilotOverlay.copilot-overlay:not(.hidden){
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+}
+
+/* Cabecera */
+#copilotPanel .floating-copilot-head{
+  flex:0 0 auto !important;
+  display:grid !important;
+  grid-template-columns:auto minmax(0,1fr) auto auto !important;
+  align-items:center !important;
+  gap:10px !important;
+  padding:15px 16px !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.025)) !important;
+  border-bottom:1px solid rgba(255,255,255,.09) !important;
+}
+
+#copilotPanel .floating-copilot-head strong{
+  color:#ffffff !important;
+}
+
+#copilotPanel .floating-copilot-head small{
+  color:#a7b0bc !important;
+}
+
+/* Área de conversación */
+#copilotPanel .floating-chat-log{
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  overflow-y:auto !important;
+  padding:16px !important;
+  background:
+    linear-gradient(180deg,rgba(7,9,12,.28),rgba(15,18,22,.50)) !important;
+}
+
+#copilotPanel .floating-chat-log .bot{
+  background:rgba(255,255,255,.075) !important;
+  color:#eef1f5 !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+}
+
+#copilotPanel .floating-chat-log .me{
+  background:linear-gradient(135deg,#f97316,#d97706) !important;
+  color:#ffffff !important;
+}
+
+/* Sugerencias */
+#copilotPanel .floating-suggestions{
+  flex:0 0 auto !important;
+  background:rgba(15,18,22,.96) !important;
+  border-top:1px solid rgba(255,255,255,.08) !important;
+}
+
+#copilotPanel .floating-suggestions button{
+  background:rgba(249,115,22,.10) !important;
+  color:#ffc98e !important;
+  border:1px solid rgba(249,115,22,.22) !important;
+}
+
+/* Caja de mensaje */
+#copilotPanel .floating-chatbox{
+  flex:0 0 auto !important;
+  display:flex !important;
+  gap:8px !important;
+  padding:12px 14px 14px !important;
+  background:rgba(10,12,15,.98) !important;
+  border-top:1px solid rgba(255,255,255,.08) !important;
+}
+
+#copilotPanel .floating-chatbox input{
+  flex:1 1 auto !important;
+  min-width:0 !important;
+  background:rgba(255,255,255,.07) !important;
+  color:#ffffff !important;
+  border:1px solid rgba(255,255,255,.10) !important;
+}
+
+#copilotPanel .floating-chatbox input::placeholder{
+  color:#8e97a4 !important;
+}
+
+#copilotPanel .floating-chatbox button{
+  flex:0 0 auto !important;
+  background:linear-gradient(110deg,#f59e0b,#f97316) !important;
+  color:#17100b !important;
+  font-weight:800 !important;
+}
+
+/* Botón cerrar */
+#copilotPanel .copilot-close{
+  background:rgba(255,255,255,.07) !important;
+  color:#d1d5db !important;
+}
+
+#copilotPanel .copilot-close:hover{
+  background:rgba(249,115,22,.16) !important;
+  color:#ffffff !important;
+}
+
+/* FAB siempre encima del dashboard cuando el panel está cerrado */
+#copilotFab.copilot-fab{
+  position:fixed !important;
+  right:24px !important;
+  bottom:24px !important;
+  z-index:20003 !important;
+}
+
+/* Modo claro */
+body.light-theme #app.app:not(.hidden) > #copilotPanel.copilot-panel{
+  background:#ffffff !important;
+  color:#182230 !important;
+  border-color:#d0d5dd !important;
+  box-shadow:0 28px 80px rgba(15,23,42,.28) !important;
+}
+
+body.light-theme #copilotPanel .floating-copilot-head{
+  background:linear-gradient(180deg,#ffffff,#f8fafc) !important;
+  border-color:#e4e7ec !important;
+}
+
+body.light-theme #copilotPanel .floating-copilot-head strong{
+  color:#101828 !important;
+}
+
+body.light-theme #copilotPanel .floating-copilot-head small{
+  color:#667085 !important;
+}
+
+body.light-theme #copilotPanel .floating-chat-log{
+  background:#ffffff !important;
+}
+
+body.light-theme #copilotPanel .floating-chat-log .bot{
+  background:#f2f4f7 !important;
+  color:#344054 !important;
+  border-color:#e4e7ec !important;
+}
+
+body.light-theme #copilotPanel .floating-suggestions{
+  background:#fafafa !important;
+  border-color:#e4e7ec !important;
+}
+
+body.light-theme #copilotPanel .floating-chatbox{
+  background:#ffffff !important;
+  border-color:#e4e7ec !important;
+}
+
+body.light-theme #copilotPanel .floating-chatbox input{
+  background:#ffffff !important;
+  color:#182230 !important;
+  border-color:#d0d5dd !important;
+}
+
+/* Responsive */
+@media(max-width:700px){
+  #app.app:not(.hidden) > #copilotPanel.copilot-panel{
+    right:10px !important;
+    left:10px !important;
+    bottom:82px !important;
+    width:auto !important;
+    min-width:0 !important;
+    max-width:none !important;
+    height:min(72vh,590px) !important;
+    min-height:380px !important;
+  }
+}
