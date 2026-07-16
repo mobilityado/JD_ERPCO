@@ -219,3 +219,13 @@ body.light-theme .modal-card{background:#fff;color:#17202a}
 body.light-theme .detail-kpi{background:#f8fafc}
 body.light-theme .diagnosis{background:#fff7ed;color:#7c2d12}
 body.light-theme .theme-toggle{background:#fff;color:#344054;border-color:#d0d5dd}
+
+/* V4 · archivos cargados y diagnóstico por conductor */
+#fileList{display:grid;gap:8px;margin-top:12px;width:min(620px,100%)}
+.loaded-file{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(34,197,94,.75);background:linear-gradient(135deg,rgba(34,197,94,.18),rgba(16,185,129,.08));border-radius:10px;color:#dcfce7;box-shadow:inset 0 0 18px rgba(34,197,94,.06)}
+.loaded-file .loaded-check{display:grid;place-items:center;min-width:26px;height:26px;border-radius:50%;background:#22c55e;color:#052e16;font-weight:1000;box-shadow:0 0 16px rgba(34,197,94,.45)}
+.loaded-file b{display:block;font-size:11px}.loaded-file small{display:block;margin-top:2px;color:#86efac;font-size:9px}
+.no-files{font-size:10px;color:var(--muted)}
+.file-check{display:flex!important;align-items:center;gap:9px}.file-check-icon{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:1px solid currentColor;font-weight:900}.file-check span:last-child{min-width:0}.file-check b{display:block}.file-check small{display:block;margin-top:2px;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.file-check.ok{box-shadow:0 0 0 1px rgba(34,197,94,.08),inset 0 0 18px rgba(34,197,94,.08)}
+.result-cell{min-width:280px;max-width:460px;font-size:10px;line-height:1.45;color:var(--muted)}
+.light-theme .loaded-file{color:#14532d;background:linear-gradient(135deg,#dcfce7,#f0fdf4)}.light-theme .loaded-file small{color:#15803d}
