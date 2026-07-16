@@ -2077,3 +2077,26 @@ body.light-theme .password-toggle-btn{
     display:none;
   }
 }
+
+
+/* =========================================================
+   V7.4 · FIX LOGIN OCULTO TRAS INICIAR SESIÓN
+   ========================================================= */
+
+/* La V7.3 usa display:flex!important en el login.
+   Esta regla garantiza que la clase hidden siempre tenga prioridad. */
+.login-v73.hidden,
+#login.hidden,
+.login.hidden {
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+/* Asegura que el dashboard pueda ocupar toda la pantalla tras el login */
+#app:not(.hidden) {
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+}
