@@ -2218,3 +2218,418 @@ body.light-theme .password-toggle-btn{
     width:100% !important;
   }
 }
+
+
+/* =========================================================
+   V7.6 · FIX REAL DEL SIDEBAR
+   El HTML usa #app > aside y #app > main.
+   ========================================================= */
+
+#app:not(.hidden){
+  display:grid !important;
+  grid-template-columns:250px minmax(0,1fr) !important;
+  min-height:100vh !important;
+  width:100% !important;
+  align-items:start !important;
+}
+
+/* Sidebar real */
+#app:not(.hidden) > aside{
+  grid-column:1 !important;
+  grid-row:1 !important;
+  position:sticky !important;
+  top:0 !important;
+  left:auto !important;
+  bottom:auto !important;
+  width:250px !important;
+  height:100vh !important;
+  min-height:100vh !important;
+  box-sizing:border-box !important;
+  overflow-y:auto !important;
+  z-index:50 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  padding:22px 16px !important;
+  background:
+    radial-gradient(circle at 82% 12%,rgba(249,115,22,.11),transparent 28%),
+    linear-gradient(180deg,#19110d 0%,#0b0d0f 52%,#17100c 100%) !important;
+  border-right:1px solid rgba(249,115,22,.17) !important;
+}
+
+/* Main real */
+#app:not(.hidden) > main{
+  grid-column:2 !important;
+  grid-row:1 !important;
+  min-width:0 !important;
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 30px 42px !important;
+  box-sizing:border-box !important;
+}
+
+/* Marca lateral */
+#app:not(.hidden) > aside .side-brand h2{
+  color:#ffffff !important;
+  opacity:1 !important;
+  font-weight:800 !important;
+  text-shadow:0 2px 16px rgba(0,0,0,.28) !important;
+}
+
+#app:not(.hidden) > aside .side-brand small{
+  color:#cfd4dc !important;
+}
+
+/* Navegación claramente vertical */
+#app:not(.hidden) > aside nav{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  gap:5px !important;
+  width:100% !important;
+}
+
+#app:not(.hidden) > aside nav button{
+  width:100% !important;
+  box-sizing:border-box !important;
+}
+
+/* Estado y usuario al fondo de la barra */
+#app:not(.hidden) > aside .side-status{
+  margin-top:auto !important;
+}
+
+/* Evita que reglas antiguas conviertan el aside en barra superior */
+#app:not(.hidden) > aside + main{
+  margin-left:0 !important;
+}
+
+/* Header dentro de main */
+#app:not(.hidden) > main > header{
+  width:100% !important;
+  margin-left:0 !important;
+  box-sizing:border-box !important;
+}
+
+/* Responsive */
+@media(max-width:850px){
+  #app:not(.hidden){
+    display:block !important;
+  }
+
+  #app:not(.hidden) > aside{
+    position:relative !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:auto !important;
+  }
+
+  #app:not(.hidden) > main{
+    width:100% !important;
+    padding:0 18px 34px !important;
+  }
+}
+
+
+/* =========================================================
+   V7.7 · SIDEBAR REAL + COPILOTO FLOTANTE
+   ========================================================= */
+
+/* Revertir el selector genérico que convirtió cualquier aside en sidebar */
+#app:not(.hidden) > aside:not(.executive-sidebar-v77){
+  grid-column:auto !important;
+  grid-row:auto !important;
+  position:initial !important;
+  top:auto !important;
+  left:auto !important;
+  bottom:auto !important;
+  width:auto !important;
+  height:auto !important;
+  min-height:0 !important;
+  padding:0 !important;
+  background:initial !important;
+  border-right:none !important;
+  display:block !important;
+}
+
+/* Sidebar real del dashboard */
+#app:not(.hidden) .executive-sidebar-v77{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  bottom:0 !important;
+  width:250px !important;
+  height:100vh !important;
+  min-height:100vh !important;
+  z-index:90 !important;
+  overflow-y:auto !important;
+  box-sizing:border-box !important;
+  padding:22px 16px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  background:
+    radial-gradient(circle at 82% 12%,rgba(249,115,22,.11),transparent 28%),
+    linear-gradient(180deg,#19110d 0%,#0b0d0f 52%,#17100c 100%) !important;
+  border-right:1px solid rgba(249,115,22,.17) !important;
+}
+
+/* Main ocupa la derecha del sidebar */
+#app:not(.hidden) > main{
+  margin-left:250px !important;
+  width:calc(100% - 250px) !important;
+  max-width:none !important;
+  padding:0 30px 42px !important;
+  box-sizing:border-box !important;
+}
+
+/* CONCIL.IA visible en blanco */
+#app:not(.hidden) .executive-sidebar-v77 .side-brand h2,
+#app:not(.hidden) .executive-sidebar-v77 h2{
+  color:#ffffff !important;
+  opacity:1 !important;
+  font-weight:800 !important;
+  text-shadow:0 2px 16px rgba(0,0,0,.28) !important;
+}
+
+#app:not(.hidden) .executive-sidebar-v77 .side-brand small,
+#app:not(.hidden) .executive-sidebar-v77 small{
+  color:#cfd4dc !important;
+}
+
+/* Navegación vertical */
+#app:not(.hidden) .executive-sidebar-v77 nav{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  gap:5px !important;
+  width:100% !important;
+}
+
+#app:not(.hidden) .executive-sidebar-v77 nav button{
+  width:100% !important;
+  box-sizing:border-box !important;
+}
+
+/* Copiloto: nunca debe comportarse como sidebar */
+#app:not(.hidden) .copilot-aside-v77{
+  position:fixed !important;
+  right:24px !important;
+  bottom:24px !important;
+  left:auto !important;
+  top:auto !important;
+  width:380px !important;
+  height:auto !important;
+  max-height:min(640px,calc(100vh - 100px)) !important;
+  min-height:0 !important;
+  z-index:9999 !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:none !important;
+  overflow:visible !important;
+  display:none !important;
+}
+
+/* Si el copiloto ya usa una clase de abierto, respétala */
+#app:not(.hidden) .copilot-aside-v77.open,
+#app:not(.hidden) .copilot-aside-v77.active,
+#app:not(.hidden) .copilot-aside-v77.show{
+  display:block !important;
+}
+
+/* El botón flotante debe permanecer visible */
+.floating-copilot-btn,
+.copilot-fab,
+#copilotFab,
+#copilotToggle{
+  position:fixed !important;
+  right:24px !important;
+  bottom:24px !important;
+  z-index:10000 !important;
+}
+
+/* Responsive */
+@media(max-width:850px){
+  #app:not(.hidden) .executive-sidebar-v77{
+    position:relative !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:auto !important;
+  }
+
+  #app:not(.hidden) > main{
+    margin-left:0 !important;
+    width:100% !important;
+    padding:0 18px 34px !important;
+  }
+
+  #app:not(.hidden) .copilot-aside-v77{
+    width:calc(100vw - 24px) !important;
+    right:12px !important;
+    bottom:12px !important;
+  }
+}
+
+
+/* =========================================================
+   V7.8 · LAYOUT DEFINITIVO
+   Sidebar real del dashboard + Copiloto flotante.
+   ========================================================= */
+
+/* Estructura principal */
+#app.app:not(.hidden){
+  display:grid !important;
+  grid-template-columns:250px minmax(0,1fr) !important;
+  min-height:100vh !important;
+  width:100% !important;
+  align-items:stretch !important;
+}
+
+/* Sidebar real */
+#app.app:not(.hidden) > aside.dashboard-sidebar-v78{
+  grid-column:1 !important;
+  grid-row:1 !important;
+  position:sticky !important;
+  top:0 !important;
+  left:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  width:250px !important;
+  min-width:250px !important;
+  max-width:250px !important;
+  height:100vh !important;
+  min-height:100vh !important;
+  box-sizing:border-box !important;
+  overflow-y:auto !important;
+  z-index:100 !important;
+  padding:22px 16px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  background:
+    radial-gradient(circle at 82% 12%,rgba(249,115,22,.12),transparent 28%),
+    linear-gradient(180deg,#19110d 0%,#0b0d0f 52%,#17100c 100%) !important;
+  border-right:1px solid rgba(249,115,22,.18) !important;
+}
+
+/* Marca y texto */
+#app.app:not(.hidden) > aside.dashboard-sidebar-v78 .side-brand{
+  position:static !important;
+  width:auto !important;
+  height:auto !important;
+  min-height:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:11px !important;
+  padding:0 8px 22px !important;
+  background:transparent !important;
+  border:none !important;
+  border-bottom:1px solid rgba(255,255,255,.08) !important;
+}
+
+#app.app:not(.hidden) > aside.dashboard-sidebar-v78 .side-brand h2{
+  color:#ffffff !important;
+  opacity:1 !important;
+  margin:0 !important;
+  font-size:18px !important;
+  font-weight:800 !important;
+}
+
+#app.app:not(.hidden) > aside.dashboard-sidebar-v78 .side-brand small{
+  color:#cfd4dc !important;
+}
+
+/* Navegación completa visible */
+#app.app:not(.hidden) > aside.dashboard-sidebar-v78 .side-section{
+  display:block !important;
+}
+
+#app.app:not(.hidden) > aside.dashboard-sidebar-v78 nav{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  gap:5px !important;
+  width:100% !important;
+}
+
+#app.app:not(.hidden) > aside.dashboard-sidebar-v78 nav button{
+  display:flex !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  text-align:left !important;
+}
+
+#app.app:not(.hidden) > aside.dashboard-sidebar-v78 .side-status{
+  display:flex !important;
+  margin-top:auto !important;
+}
+
+#app.app:not(.hidden) > aside.dashboard-sidebar-v78 .who{
+  display:block !important;
+}
+
+/* Main a la derecha */
+#app.app:not(.hidden) > main{
+  grid-column:2 !important;
+  grid-row:1 !important;
+  position:relative !important;
+  min-width:0 !important;
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 30px 42px !important;
+  box-sizing:border-box !important;
+}
+
+/* Neutralizar reglas antiguas que añadían margen manual */
+#app.app:not(.hidden) > aside.dashboard-sidebar-v78 + main{
+  margin-left:0 !important;
+}
+
+/* Copiloto flotante */
+#copilotPanel.copilot-panel{
+  position:fixed !important;
+  right:24px !important;
+  bottom:88px !important;
+  left:auto !important;
+  top:auto !important;
+  width:min(390px,calc(100vw - 32px)) !important;
+  height:auto !important;
+  max-height:calc(100vh - 120px) !important;
+  min-height:0 !important;
+  z-index:9999 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+}
+
+#copilotPanel.copilot-panel.hidden{
+  display:none !important;
+}
+
+#copilotPanel.copilot-panel:not(.hidden){
+  display:flex !important;
+  flex-direction:column !important;
+}
+
+#copilotFab{
+  position:fixed !important;
+  right:24px !important;
+  bottom:24px !important;
+  z-index:10000 !important;
+}
+
+/* Responsive */
+@media(max-width:850px){
+  #app.app:not(.hidden){
+    display:block !important;
+  }
+
+  #app.app:not(.hidden) > aside.dashboard-sidebar-v78{
+    position:relative !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
+    height:auto !important;
+    min-height:auto !important;
+  }
+
+  #app.app:not(.hidden) > main{
+    width:100% !important;
+    padding:0 18px 34px !important;
+  }
+}
