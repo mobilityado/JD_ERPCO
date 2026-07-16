@@ -1032,3 +1032,314 @@ body.light-theme .resolution-progress-track{
     grid-template-columns:1fr;
   }
 }
+
+
+/* =========================================================
+   V7.1 · EXECUTIVE LOGIN
+   Rediseño visual del acceso sin alterar autenticación.
+   ========================================================= */
+
+#loginScreen,
+.login-screen,
+.login-shell,
+.auth-screen{
+  position:fixed;
+  inset:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 14% 18%, rgba(249,115,22,.17), transparent 28%),
+    radial-gradient(circle at 84% 76%, rgba(245,158,11,.10), transparent 28%),
+    radial-gradient(circle at 70% 12%, rgba(180,83,9,.08), transparent 22%),
+    linear-gradient(135deg,#090b0e 0%,#11151a 42%,#18120d 100%);
+  overflow:auto;
+}
+
+#loginScreen::before,
+.login-screen::before,
+.login-shell::before,
+.auth-screen::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(120deg,transparent 0 35%,rgba(255,255,255,.018) 44%,transparent 52%),
+    radial-gradient(circle at 50% 45%,rgba(255,255,255,.025),transparent 48%);
+  opacity:.9;
+}
+
+.login-container,
+.login-card,
+.auth-card{
+  width:min(520px,calc(100vw - 32px))!important;
+  margin:auto!important;
+  border-radius:28px!important;
+  border:1px solid rgba(255,255,255,.09)!important;
+  background:
+    linear-gradient(145deg,rgba(18,20,24,.92),rgba(17,12,8,.88))!important;
+  backdrop-filter:blur(22px) saturate(135%)!important;
+  -webkit-backdrop-filter:blur(22px) saturate(135%)!important;
+  box-shadow:
+    0 32px 90px rgba(0,0,0,.48),
+    0 0 0 1px rgba(249,115,22,.05) inset,
+    0 0 70px rgba(249,115,22,.06)!important;
+  overflow:hidden!important;
+  animation:loginExecutiveIn .55s ease both;
+}
+
+@keyframes loginExecutiveIn{
+  from{opacity:0;transform:translateY(16px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+/* Elimina sensación de dos bloques */
+.login-container > *,
+.login-card > *,
+.auth-card > *{
+  border-radius:0!important;
+}
+.login-brand-panel,
+.login-form-panel,
+.auth-left,
+.auth-right{
+  background:transparent!important;
+  border:none!important;
+}
+
+/* Marca principal */
+.login-brand-panel,
+.auth-left{
+  padding:40px 42px 18px!important;
+  min-height:auto!important;
+}
+.login-brand-panel::after,
+.auth-left::after{
+  content:"";
+  display:block;
+  height:1px;
+  margin-top:26px;
+  background:linear-gradient(90deg,transparent,rgba(249,115,22,.45),transparent);
+}
+
+.login-form-panel,
+.auth-right{
+  padding:18px 42px 38px!important;
+}
+
+.login-card h1,
+.login-container h1,
+.auth-card h1{
+  color:#ffffff!important;
+  font-size:2.2rem!important;
+  letter-spacing:-.03em!important;
+  margin-bottom:8px!important;
+}
+
+.login-card h2,
+.login-container h2,
+.auth-card h2{
+  color:#ffffff!important;
+  font-size:1.35rem!important;
+  margin-bottom:4px!important;
+}
+
+.login-card p,
+.login-container p,
+.auth-card p{
+  color:#aeb7c3!important;
+}
+
+.login-dynamic-greeting{
+  margin:4px 0 20px!important;
+  color:#fdba74!important;
+  font-weight:600!important;
+}
+
+/* Inputs */
+.login-card select,
+.login-card input,
+.login-container select,
+.login-container input,
+.auth-card select,
+.auth-card input{
+  min-height:50px!important;
+  border-radius:14px!important;
+  border:1px solid rgba(148,163,184,.18)!important;
+  background:rgba(255,255,255,.055)!important;
+  color:#f8fafc!important;
+  box-shadow:none!important;
+  transition:.22s ease!important;
+}
+.login-card select:focus,
+.login-card input:focus,
+.login-container select:focus,
+.login-container input:focus,
+.auth-card select:focus,
+.auth-card input:focus{
+  border-color:#f97316!important;
+  box-shadow:0 0 0 4px rgba(249,115,22,.10)!important;
+  background:rgba(255,255,255,.075)!important;
+}
+.login-card select option,
+.login-container select option,
+.auth-card select option{
+  background:#15181d!important;
+  color:#f8fafc!important;
+}
+
+/* Password toggle */
+.password-field-wrap{
+  position:relative;
+}
+.password-field-wrap input{
+  width:100%!important;
+  padding-right:50px!important;
+}
+.password-toggle-btn{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.05);
+  color:#d1d5db;
+  cursor:pointer;
+}
+.password-toggle-btn:hover{
+  color:#ffffff;
+  background:rgba(249,115,22,.13);
+  border-color:rgba(249,115,22,.28);
+}
+
+/* Botón principal */
+.login-card button[type="submit"],
+.login-container button[type="submit"],
+.auth-card button[type="submit"],
+.login-card .login-btn,
+.login-container .login-btn,
+.auth-card .login-btn{
+  min-height:52px!important;
+  border:none!important;
+  border-radius:14px!important;
+  background:linear-gradient(105deg,#f59e0b 0%,#f97316 55%,#ea580c 100%)!important;
+  color:#111827!important;
+  font-weight:800!important;
+  box-shadow:0 12px 28px rgba(249,115,22,.22)!important;
+  transition:.22s ease!important;
+}
+.login-card button[type="submit"]:hover,
+.login-container button[type="submit"]:hover,
+.auth-card button[type="submit"]:hover,
+.login-card .login-btn:hover,
+.login-container .login-btn:hover,
+.auth-card .login-btn:hover{
+  transform:translateY(-1px)!important;
+  box-shadow:0 16px 34px rgba(249,115,22,.30)!important;
+}
+
+/* Estado inferior */
+.login-system-status{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-top:18px;
+  color:#98a2b3;
+  font-size:.78rem;
+}
+.login-system-status .status-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#22c55e;
+  box-shadow:0 0 0 4px rgba(34,197,94,.10),0 0 14px rgba(34,197,94,.45);
+}
+.login-system-status .status-separator{
+  opacity:.45;
+}
+
+/* Halo decorativo sutil */
+.login-container::before,
+.login-card::before,
+.auth-card::before{
+  content:"";
+  position:absolute;
+  width:220px;
+  height:220px;
+  right:-80px;
+  top:-90px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(249,115,22,.13),transparent 68%);
+  pointer-events:none;
+}
+
+/* Modo claro del login */
+body.light-theme #loginScreen,
+body.light-theme .login-screen,
+body.light-theme .login-shell,
+body.light-theme .auth-screen{
+  background:
+    radial-gradient(circle at 12% 18%,rgba(249,115,22,.12),transparent 28%),
+    radial-gradient(circle at 85% 80%,rgba(245,158,11,.08),transparent 30%),
+    linear-gradient(135deg,#fffaf5 0%,#f4f6f8 50%,#eef2f6 100%)!important;
+}
+body.light-theme .login-container,
+body.light-theme .login-card,
+body.light-theme .auth-card{
+  background:rgba(255,255,255,.88)!important;
+  border-color:rgba(15,23,42,.08)!important;
+  box-shadow:0 28px 72px rgba(15,23,42,.16)!important;
+}
+body.light-theme .login-card h1,
+body.light-theme .login-container h1,
+body.light-theme .auth-card h1,
+body.light-theme .login-card h2,
+body.light-theme .login-container h2,
+body.light-theme .auth-card h2{
+  color:#182230!important;
+}
+body.light-theme .login-card p,
+body.light-theme .login-container p,
+body.light-theme .auth-card p{
+  color:#667085!important;
+}
+body.light-theme .login-card select,
+body.light-theme .login-card input,
+body.light-theme .login-container select,
+body.light-theme .login-container input,
+body.light-theme .auth-card select,
+body.light-theme .auth-card input{
+  background:#ffffff!important;
+  color:#182230!important;
+  border-color:#d0d5dd!important;
+}
+body.light-theme .login-card select option,
+body.light-theme .login-container select option,
+body.light-theme .auth-card select option{
+  background:#ffffff!important;
+  color:#182230!important;
+}
+body.light-theme .password-toggle-btn{
+  background:#f8fafc!important;
+  color:#475467!important;
+  border-color:#e4e7ec!important;
+}
+
+@media(max-width:700px){
+  .login-container,
+  .login-card,
+  .auth-card{
+    width:min(94vw,520px)!important;
+    border-radius:22px!important;
+  }
+  .login-brand-panel,
+  .auth-left,
+  .login-form-panel,
+  .auth-right{
+    padding-left:24px!important;
+    padding-right:24px!important;
+  }
+}

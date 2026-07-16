@@ -412,3 +412,52 @@ window.CONCILIA_CONFIG = {
 
   window.refreshV7=refreshV7;
 })();
+
+
+/* =========================================================
+   V7.1 · EXECUTIVE LOGIN INTERACTIONS
+   ========================================================= */
+(function(){
+  function initExecutiveLoginV71(){
+    const userSelect =
+      document.querySelector('#loginUser') ||
+      document.querySelector('#usuario') ||
+      document.querySelector('select[name="usuario"]') ||
+      document.querySelector('select[name="user"]') ||
+      document.querySelector('.login-card select');
+
+    const greeting = document.getElementById('loginDynamicGreeting');
+
+    if(userSelect && greeting){
+      const updateGreeting = ()=>{
+        const opt = userSelect.options[userSelect.selectedIndex];
+        const txt = (opt && opt.textContent || '').trim();
+        if(!userSelect.value || /selecciona/i.test(txt)){
+          greeting.textContent = 'Selecciona tu usuario para continuar.';
+        }else{
+          const first = txt.split(/\s+/)[0];
+          greeting.textContent = `👋 Hola ${first}, ingresa tu contraseña para continuar.`;
+        }
+      };
+      userSelect.addEventListener('change',updateGreeting);
+      updateGreeting();
+    }
+
+    const toggle = document.getElementById('toggleLoginPassword');
+    if(toggle){
+      const pwd =
+        document.querySelector('.password-field-wrap input') ||
+        document.querySelector('input[type="password"]');
+      if(pwd){
+        toggle.addEventListener('click',()=>{
+          const visible = pwd.type === 'text';
+          pwd.type = visible ? 'password' : 'text';
+          toggle.textContent = visible ? '👁' : '🙈';
+          toggle.setAttribute('aria-label', visible ? 'Mostrar contraseña' : 'Ocultar contraseña');
+        });
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded',initExecutiveLoginV71);
+})();
