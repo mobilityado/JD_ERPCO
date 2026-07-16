@@ -19,7 +19,7 @@ async function loadUsers(){
 }
 function csvLine(line){let a=[],v='',q=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(q&&line[i+1]==='"'){v+='"';i++}else q=!q}else if(c===','&&!q){a.push(v);v=''}else v+=c}a.push(v);return a}
 function parseCSV(t){return t.replace(/^\uFEFF/,'').split(/\r?\n/).filter(x=>x.trim()).map(csvLine)}
-function num(v){const x=parseFloat(String(v||'').replace(/,/g,''));return Number.isFinite(x)?x:0}
+function num(v){let t=String(v??'').trim().replace(/[$\s]/g,'');if(!t)return 0;if(t.includes(',')&&t.includes('.')){if(t.lastIndexOf(',')>t.lastIndexOf('.'))t=t.replace(/\./g,'').replace(',','.');else t=t.replace(/,/g,'')}else if(t.includes(',')&&!t.includes('.')){const parts=t.split(',');t=(parts.length===2&&parts[1].length<=2)?parts[0].replace(/\./g,'')+'.'+parts[1]:t.replace(/,/g,'')}const x=parseFloat(t);return Number.isFinite(x)?x:0}
 function brandFrom(name,text){const n=(name+' '+text.slice(0,700)).toUpperCase();if(n.includes('TRT'))return'TRT';if(n.includes('SUR')||n.includes('AAO'))return'AAO';if(n.includes('ADO'))return'ADO';return'OTRO'}
 async function login(){
   const u=$('#user').value.trim(),p=$('#pass').value;if(!u||!p)return $('#loginMsg').textContent='Selecciona usuario y escribe tu contraseña.';
@@ -83,10 +83,11 @@ $('#run').onclick=reconcile;function setStatus(t){$('#status').textContent=t}fun
 
 function getStats(){
   const total=rows.length,diff=rows.filter(r=>r.state!=='Cuadrado').length,balanced=total-diff,percentage=total?balanced/total*100:0;
+  const matched=rows.filter(r=>r.state!=='Solo en JDE'&&r.state!=='Solo en Saldos').length,coverage=total?matched/total*100:0;
   const totalDebt=rows.reduce((s,r)=>s+r.saldos,0),net=rows.reduce((s,r)=>s+r.diff,0);
   const byState=Object.fromEntries(['Diferencia de saldo','Solo en JDE','Solo en Saldos','Cuadrado'].map(s=>[s,rows.filter(r=>r.state===s).length]));
   const brands=['ADO','AAO','TRT'].map(brand=>{const x=rows.filter(r=>r.brand===brand),d=x.filter(r=>r.state!=='Cuadrado');return{brand,total:x.length,diff:d.length,balanced:x.length-d.length,pct:x.length?(x.length-d.length)/x.length*100:0,debt:x.reduce((s,r)=>s+r.saldos,0),net:x.reduce((s,r)=>s+r.diff,0)}});
-  return{total,diff,balanced,percentage,totalDebt,net,byState,brands};
+  return{total,diff,balanced,percentage,matched,coverage,totalDebt,net,byState,brands};
 }
 function healthClass(p){return p>=98?'good':p>=90?'warn':'bad'}
 function render(){
@@ -118,7 +119,7 @@ function renderDebts(s){
   const debts=rows.filter(r=>r.saldos>0).sort((a,b)=>b.saldos-a.saldos).slice(0,20);$('#debtList').innerHTML=debts.length?debts.map((r,i)=>`<div class="debt"><div class="rank">${i<3?['🥇','🥈','🥉'][i]:i+1}</div><div><b>${esc(r.name||'Sin nombre')}</b><br><small>${esc(r.brand)} · ${esc(r.id)}</small></div><strong>${fmt(r.saldos)}</strong></div>`).join(''):'<div style="padding:20px;color:#9ca3af">No hay adeudos para mostrar.</div>';
   const max=Math.max(1,...s.brands.map(x=>x.debt));$('#debtByBrand').innerHTML=s.brands.map(x=>`<div class="bar-item"><div class="bar-head"><b>${x.brand}</b><span>${fmt(x.debt)}</span></div><div class="bar-track"><div class="bar-fill" style="width:${x.debt/max*100}%"></div></div></div>`).join('');
 }
-function diagnosis(r){if(r.state==='Cuadrado')return 'El conductor aparece en ambos reportes y los importes coinciden. No requiere acción.';if(r.state==='Solo en JDE')return 'El conductor tiene saldo registrado en JDE, pero no aparece en el reporte de Saldos por Conductor. Conviene validar si existe un movimiento pendiente de reflejar o una diferencia de fecha de corte.';if(r.state==='Solo en Saldos')return 'El conductor aparece en Saldos por Conductor, pero no tiene registro equivalente en JDE. Revisa el origen del saldo y la fecha de actualización.';return `El conductor aparece en ambos sistemas, pero existe una diferencia de ${fmt(Math.abs(r.diff))}. ${r.diff>0?'JDE presenta un importe mayor que Saldos.':'Saldos presenta un importe mayor que JDE.'}`}
+function diagnosis(r){if(r.state==='Cuadrado')return 'El conductor aparece en ambos reportes y los importes coinciden. No requiere acción.';if(r.state==='Solo en JDE')return 'El conductor tiene saldo registrado en JDE, pero no aparece en el reporte de Saldos por Conductor. Conviene validar si existe un movimiento pendiente de reflejar o una diferencia de fecha de corte.';if(r.state==='Solo en Saldos')return 'El conductor aparece en Saldos por Conductor, pero no tiene registro equivalente en JDE. Revisa el origen del saldo y la fecha de actualización.';return `El conductor aparece en ambos sistemas, pero existe una diferencia de ${fmt(Math.abs(r.diff))}. ${r.diff>0?'Saldos presenta un importe mayor que JDE.':'JDE presenta un importe mayor que Saldos.'}`}
 function openDriver(key){const r=rows.find(x=>x.brand+'|'+x.id===key);if(!r)return;const detail=r.concepts?.length?`<div class="concept-detail"><h3>Detalle de conceptos ERPCO / Saldos</h3><div class="tablewrap"><table><thead><tr><th>Código</th><th>Concepto</th><th>Importe</th><th>Fecha</th></tr></thead><tbody>${r.concepts.map(c=>`<tr><td>${esc(c.code)}</td><td>${esc(c.concept)}</td><td class="money">${fmt(c.amount)}</td><td>${esc(c.date)}</td></tr>`).join('')}</tbody></table></div></div>`:'<div class="diagnosis">No hay detalle de conceptos disponible para este conductor.</div>';$('#driverDetail').innerHTML=`<div class="detail-hero"><div><span class="eyebrow">VISTA 360° DEL CONDUCTOR</span><h2>${esc(r.name||'Conductor '+r.id)}</h2><p>${esc(r.brand)} · Clave ${esc(r.id)}</p></div><span class="badge ${r.state==='Cuadrado'?'ok':r.state.includes('Solo')?'warn':'bad'}">${esc(r.state)}</span></div><div class="detail-grid"><div class="detail-kpi"><span>ERPCO / Saldos</span><strong>${fmt(r.saldos)}</strong></div><div class="detail-kpi"><span>JDE</span><strong>${fmt(r.jde)}</strong></div><div class="detail-kpi"><span>Diferencia ERPCO − JDE</span><strong>${fmt(r.diff)}</strong></div></div><div class="diagnosis"><b>Diagnóstico automático</b><br>${diagnosis(r)}</div>${detail}`;$('#driverModal').classList.remove('hidden')}
 $$('[data-close-modal]').forEach(x=>x.onclick=()=>$('#driverModal').classList.add('hidden'));
 
@@ -128,13 +129,34 @@ $('#exportExecutive').onclick=exportExecutive;
 function exportExecutive(){
   if(!rows.length)return alert('Primero ejecuta una conciliación.');
   if(typeof XLSX==='undefined'){exportCSV(rows,'CONCILIA_REPORTE_EJECUTIVO.csv');return alert('No fue posible cargar el generador de Excel. Se exportó un CSV como respaldo.')}
-  const s=getStats(), wb=XLSX.utils.book_new();
-  const resumen=[['CONCIL.IA · JDE vs Saldos por Conductor'],['Fecha',new Date().toLocaleString('es-MX')],['Usuario',currentUser?.nombre||''],['Modalidad',brandMode==='ALL'?'ADO + AAO + TRT':brandMode],[],['Indicador','Valor'],['Conductores analizados',s.total],['Conductores cuadrados',s.balanced],['Conductores con diferencia',s.diff],['Porcentaje conciliado',s.percentage/100],['Adeudo total ERPCO / Saldos',s.totalDebt],['Diferencia neta ERPCO - JDE',s.net],[],['Marca','Conductores','Diferencias','% Conciliado','ERPCO / Saldos','Diferencia neta'],...s.brands.filter(x=>x.total).map(x=>[x.brand,x.total,x.diff,x.pct/100,x.debt,x.net])];
+  const s=getStats(), wb=XLSX.utils.book_new(), fecha=new Date().toLocaleString('es-MX');
+  const resumen=[['CONCIL.IA · CUADRE JDE VS SALDOS POR CONDUCTOR'],['Reporte ejecutivo de conciliación'],[],['Fecha de generación',fecha],['Usuario',currentUser?.nombre||''],['Modalidad',brandMode==='ALL'?'ADO + AAO + TRT':brandMode],[],['INDICADOR','VALOR'],['Conductores analizados',s.total],['Cruce encontrado en ambos reportes',s.matched],['Cobertura de cruce',s.coverage/100],['Cuadre exacto',s.balanced],['Registros con observación',s.diff],['% de cuadre exacto',s.percentage/100],['Saldo total ERPCO / Saldos',s.totalDebt],['Diferencia neta ERPCO - JDE',s.net],[],['MARCA','CONDUCTORES','OBSERVACIONES','% CUADRE','ERPCO / SALDOS','DIFERENCIA NETA'],...s.brands.filter(x=>x.total).map(x=>[x.brand,x.total,x.diff,x.pct/100,x.debt,x.net])];
   const mapRows=data=>data.map(r=>({CLAVE:r.id,NOMBRE:r.name,'ERPCO / SALDOS':r.saldos,JDE:r.jde,DIF:r.diff,ESTATUS:r.state,MARCA:r.brand}));
-  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(resumen),'Resumen Ejecutivo');
-  for(const brand of ['ADO','AAO','TRT']){const data=rows.filter(r=>r.brand===brand);if(!data.length)continue;const ws=XLSX.utils.json_to_sheet(mapRows(data));ws['!cols']=[{wch:14},{wch:34},{wch:18},{wch:18},{wch:18},{wch:22},{wch:10}];XLSX.utils.book_append_sheet(wb,ws,`CONCILIACION ${brand}`)}
-  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(mapRows(rows.filter(r=>r.state!=='Cuadrado'))),'Diferencias');
-  const conceptRows=[];for(const r of rows)for(const c of (r.concepts||[]))conceptRows.push({MARCA:r.brand,CLAVE:r.id,NOMBRE:r.name,CODIGO:c.code,CONCEPTO:c.concept,IMPORTE:c.amount,FECHA:c.date});if(conceptRows.length)XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(conceptRows),'Detalle Conceptos');
+  const orange='F97316', dark='161A1F', gold='F59E0B', light='FFF7ED', white='FFFFFF', green='DCFCE7', red='FEE2E2', amber='FEF3C7';
+  function styleSheet(ws,opts={}){
+    const range=XLSX.utils.decode_range(ws['!ref']||'A1:A1');
+    for(let R=range.s.r;R<=range.e.r;R++)for(let C=range.s.c;C<=range.e.c;C++){
+      const a=XLSX.utils.encode_cell({r:R,c:C}),cell=ws[a];if(!cell)continue;
+      cell.s=cell.s||{};cell.s.font={name:'Aptos',sz:10,color:{rgb:'27313D'}};cell.s.alignment={vertical:'center'};
+      cell.s.border={bottom:{style:'hair',color:{rgb:'E5E7EB'}}};
+      if(R===0){cell.s.fill={fgColor:{rgb:dark}};cell.s.font={name:'Aptos Display',sz:14,bold:true,color:{rgb:white}};cell.s.alignment={vertical:'center'};}
+    }
+    if(opts.headerRow!=null){for(let C=range.s.c;C<=range.e.c;C++){const a=XLSX.utils.encode_cell({r:opts.headerRow,c:C}),cell=ws[a];if(!cell)continue;cell.s={fill:{fgColor:{rgb:orange}},font:{name:'Aptos',sz:10,bold:true,color:{rgb:white}},alignment:{horizontal:'center',vertical:'center'},border:{bottom:{style:'thin',color:{rgb:'C2410C'}}}}}}
+    ws['!autofilter']=opts.headerRow!=null?{ref:XLSX.utils.encode_range({s:{r:opts.headerRow,c:range.s.c},e:{r:range.e.r,c:range.e.c}})}:undefined;
+  }
+  const wsR=XLSX.utils.aoa_to_sheet(resumen);wsR['!merges']=[XLSX.utils.decode_range('A1:F1'),XLSX.utils.decode_range('A2:F2')];wsR['!cols']=[{wch:32},{wch:20},{wch:16},{wch:16},{wch:20},{wch:20}];wsR['!rows']=[{hpt:28},{hpt:20}];styleSheet(wsR,{headerRow:7});
+  for(const c of ['B10','B11','B14'])if(wsR[c])wsR[c].z='0.00%';for(const c of ['B15','B16'])if(wsR[c])wsR[c].z='$#,##0.00;[Red]-$#,##0.00';
+  XLSX.utils.book_append_sheet(wb,wsR,'Resumen Ejecutivo');
+  for(const brand of ['ADO','AAO','TRT']){
+    const data=rows.filter(r=>r.brand===brand);if(!data.length)continue;
+    const title=[[`CONCIL.IA · CONCILIACIÓN ${brand}`],[`JDE vs Saldos por Conductor · ${fecha}`],[]];
+    const aoa=title.concat([['CLAVE','NOMBRE','ERPCO / SALDOS','JDE','DIF','ESTATUS','MARCA']],data.map(r=>[r.id,r.name,r.saldos,r.jde,r.diff,r.state,r.brand]));
+    const ws=XLSX.utils.aoa_to_sheet(aoa);ws['!merges']=[XLSX.utils.decode_range('A1:G1'),XLSX.utils.decode_range('A2:G2')];ws['!cols']=[{wch:14},{wch:36},{wch:18},{wch:18},{wch:18},{wch:22},{wch:10}];ws['!rows']=[{hpt:28},{hpt:20},{}];styleSheet(ws,{headerRow:3});
+    const ref=XLSX.utils.decode_range(ws['!ref']);for(let R=4;R<=ref.e.r;R++){for(const C of [2,3,4]){const cell=ws[XLSX.utils.encode_cell({r:R,c:C})];if(cell)cell.z='$#,##0.00;[Red]-$#,##0.00'}const st=ws[XLSX.utils.encode_cell({r:R,c:5})];if(st){const v=String(st.v||'');st.s=st.s||{};st.s.fill={fgColor:{rgb:v==='Cuadrado'?green:v.includes('Solo')?amber:red}};st.s.font={name:'Aptos',sz:10,bold:true,color:{rgb:v==='Cuadrado'?'166534':v.includes('Solo')?'92400E':'991B1B'}}}}
+    XLSX.utils.book_append_sheet(wb,ws,`CONCILIACION ${brand}`)
+  }
+  const dif=rows.filter(r=>r.state!=='Cuadrado');if(dif.length){const ws=XLSX.utils.json_to_sheet(mapRows(dif));ws['!cols']=[{wch:14},{wch:36},{wch:18},{wch:18},{wch:18},{wch:22},{wch:10}];styleSheet(ws,{headerRow:0});XLSX.utils.book_append_sheet(wb,ws,'Diferencias')}
+  const conceptRows=[];for(const r of rows)for(const c of (r.concepts||[]))conceptRows.push({MARCA:r.brand,CLAVE:r.id,NOMBRE:r.name,CODIGO:c.code,CONCEPTO:c.concept,IMPORTE:c.amount,FECHA:c.date});if(conceptRows.length){const ws=XLSX.utils.json_to_sheet(conceptRows);ws['!cols']=[{wch:10},{wch:14},{wch:34},{wch:12},{wch:34},{wch:16},{wch:14}];styleSheet(ws,{headerRow:0});XLSX.utils.book_append_sheet(wb,ws,'Detalle Conceptos')}
   XLSX.writeFile(wb,`CONCILIA_CUADRE_${brandMode==='ALL'?'TODAS':brandMode}_${new Date().toISOString().slice(0,10)}.xlsx`)
 }
 
@@ -166,4 +188,8 @@ $('#copilotOverlay').onclick=()=>toggleCopilot(false);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#copilotPanel').classList.contains('hidden'))toggleCopilot(false)});
 
 updateBrandModeUI();
+
+function applyTheme(theme){document.body.classList.toggle('light-theme',theme==='light');const b=$('#themeToggle');if(b)b.textContent=theme==='light'?'🌙 Modo oscuro':'☀️ Modo claro';localStorage.setItem('conciliiaTheme',theme)}
+$('#themeToggle').onclick=()=>applyTheme(document.body.classList.contains('light-theme')?'dark':'light');
+applyTheme(localStorage.getItem('conciliiaTheme')||'dark');
 let saved=localStorage.getItem('conciliiaUser');if(saved){try{currentUser=JSON.parse(saved);openApp()}catch{}}

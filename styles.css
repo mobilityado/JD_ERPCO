@@ -197,3 +197,25 @@ header button:hover,.secondary:hover{border-color:rgba(255,153,51,.45);color:#ff
 .brand-mode button.active{color:#fff;border-color:rgba(255,171,64,.7);background:linear-gradient(110deg,rgba(255,122,0,.82),rgba(255,176,48,.62),rgba(198,92,24,.76));box-shadow:0 8px 28px rgba(255,120,0,.2)}
 .concept-detail{margin-top:18px}.concept-detail h3{margin:0 0 10px}.concept-detail .tablewrap{max-height:300px;overflow:auto}
 @media(max-width:700px){.brand-mode button{flex:1 1 42%}}
+
+/* V3 · Selector de tema claro/oscuro */
+.theme-toggle{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--text);padding:8px 12px;border-radius:9px;font-size:11px;font-weight:800;cursor:pointer;backdrop-filter:blur(10px)}
+.theme-toggle:hover{border-color:rgba(255,166,77,.5);background:rgba(255,122,24,.10)}
+body.light-theme{
+  --bg:#f4f6f8;--surface:#ffffff;--text:#17202a;--muted:#667085;--line:#e5e7eb;--glass:#ffffff;--glass-strong:#ffffff;
+  background:linear-gradient(135deg,#f7f8fa,#eef1f4);color:#17202a
+}
+body.light-theme:before{opacity:.12}
+body.light-theme aside.sidebar{background:linear-gradient(180deg,#15181d,#20242a);color:#fff}
+body.light-theme header,body.light-theme .panel,body.light-theme .kpi,body.light-theme .brand-card,body.light-theme .health-strip{background:#fff!important;color:#17202a!important;border-color:#e5e7eb!important;box-shadow:0 8px 28px rgba(17,24,39,.07)!important}
+body.light-theme h1,body.light-theme h2,body.light-theme h3,body.light-theme strong{color:#17202a}
+body.light-theme .panel-note,body.light-theme p,body.light-theme .muted,body.light-theme small{color:#667085}
+body.light-theme .tablewrap,body.light-theme table,body.light-theme th,body.light-theme td{background:#fff;color:#344054;border-color:#eaecf0}
+body.light-theme th{background:#f8fafc;color:#475467}
+body.light-theme input,body.light-theme select{background:#fff;color:#17202a;border-color:#d0d5dd}
+body.light-theme .copilot-panel,body.light-theme .floating-copilot-head,body.light-theme .floating-chat-log,body.light-theme .floating-suggestions{background:#fff!important;color:#17202a!important}
+body.light-theme .floating-chat-log .bot{background:#f2f4f7;color:#344054}
+body.light-theme .modal-card{background:#fff;color:#17202a}
+body.light-theme .detail-kpi{background:#f8fafc}
+body.light-theme .diagnosis{background:#fff7ed;color:#7c2d12}
+body.light-theme .theme-toggle{background:#fff;color:#344054;border-color:#d0d5dd}
