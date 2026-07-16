@@ -104,6 +104,47 @@
 </section>
 
 
+
+<section id="resolutionCenter" class="panel resolution-center">
+  <div class="panel-head">
+    <div>
+      <span class="eyebrow">CENTRO DE RESOLUCIÓN</span>
+      <h3>Seguimiento de diferencias</h3>
+      <p class="panel-note">Clasifica, documenta y da seguimiento a los casos antes de cerrar la conciliación.</p>
+    </div>
+    <div class="resolution-progress-box">
+      <span>Proceso de revisión</span>
+      <strong id="resolutionProgressText">0%</strong>
+      <div class="resolution-progress-track">
+        <div id="resolutionProgressBar" class="resolution-progress-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="resolution-summary-grid">
+    <article class="resolution-summary-card pending">
+      <span>Pendientes</span>
+      <strong id="resolutionPending">0</strong>
+    </article>
+    <article class="resolution-summary-card reviewing">
+      <span>En revisión</span>
+      <strong id="resolutionReviewing">0</strong>
+    </article>
+    <article class="resolution-summary-card justified">
+      <span>Justificadas</span>
+      <strong id="resolutionJustified">0</strong>
+    </article>
+    <article class="resolution-summary-card corrected">
+      <span>Corregidas</span>
+      <strong id="resolutionCorrected">0</strong>
+    </article>
+  </div>
+
+  <div id="resolutionCases" class="resolution-cases">
+    <div class="empty-attention">Carga y procesa una conciliación para iniciar el seguimiento.</div>
+  </div>
+</section>
+
 <section id="attentionRequiredPanel" class="panel attention-panel">
   <div class="panel-head">
     <div>
@@ -130,7 +171,47 @@
       </section>
 
 
-    </main>
+    
+<section id="closurePanel" class="panel closure-panel">
+  <div class="panel-head">
+    <div>
+      <span class="eyebrow">CIERRE DE CONCILIACIÓN</span>
+      <h3>Finalizar y documentar el proceso</h3>
+      <p class="panel-note">Genera un folio de cierre y conserva el resumen del resultado.</p>
+    </div>
+    <div id="closureStatusBadge" class="closure-status-badge open">ABIERTA</div>
+  </div>
+
+  <div class="closure-grid">
+    <div class="closure-info-card">
+      <span>Folio</span>
+      <strong id="closureFolio">Pendiente</strong>
+    </div>
+    <div class="closure-info-card">
+      <span>Responsable</span>
+      <strong id="closureUser">Usuario actual</strong>
+    </div>
+    <div class="closure-info-card">
+      <span>Marcas procesadas</span>
+      <strong id="closureBrands">—</strong>
+    </div>
+    <div class="closure-info-card">
+      <span>Estado final</span>
+      <strong id="closureFinalStatus">En proceso</strong>
+    </div>
+  </div>
+
+  <div class="closure-actions">
+    <button id="closeConciliationBtn" class="primary" type="button">🔒 Cerrar conciliación</button>
+    <button id="downloadClosureBtn" class="secondary" type="button" disabled>📄 Descargar informe de cierre</button>
+  </div>
+
+  <div id="closureMessage" class="closure-message">
+    La conciliación permanecerá abierta hasta que decidas cerrarla.
+  </div>
+</section>
+
+</main>
 
     <button id="copilotFab" class="copilot-fab" aria-label="Abrir Copiloto CONCIL.IA" title="Abrir Copiloto">
       <span class="copilot-fab-icon">✦</span><span class="copilot-fab-pulse"></span>
