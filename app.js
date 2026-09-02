@@ -1,8 +1,10 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const cfg=window.CONCILIA_CONFIG||{};
 let selected=[], rows=[], currentUser=null, lastFound={}, quickFilter='all', brandMode='ADO';
-// Conceptos ERPCO que el cuadre manual coteja contra JDE. Se pueden ampliar aquí si aparecen nuevos conceptos.
-const CONCILIABLE_CODES=new Set(['853','3220','741','501']);
+// Conceptos ERPCO que forman parte del saldo reflejado en JDE.
+// La conciliación se realiza SIEMPRE por clave de empleado (LM AUX), no por nombre.
+// Actualizado con los formatos ERPCO/JDE de agosto 2026.
+const CONCILIABLE_CODES=new Set(['292','501','681','715','741','853','3220','3235']);
 const fmt=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(n||0);
 const pct=n=>`${(n||0).toFixed(2)}%`;
 const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
